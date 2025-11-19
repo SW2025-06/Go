@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :review_tags
   resources :tags
   resources :reviews
