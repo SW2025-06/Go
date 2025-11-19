@@ -1,0 +1,2 @@
+module ReviewTagsHelper
+end

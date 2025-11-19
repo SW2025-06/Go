@@ -2,14 +2,14 @@
 
 one:
   title: MyString
-  body: MyString
+  body: MyText
   rating: 1
-  user: MyString
-  game_id: 1
+  user: one
+  game: one
 
 two:
   title: MyString
-  body: MyString
+  body: MyText
   rating: 1
-  user: MyString
-  game_id: 1
+  user: two
+  game: two
