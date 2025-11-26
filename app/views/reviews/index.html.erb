@@ -17,6 +17,57 @@
 <<<<<<< HEAD
 
 
+<<<<<<< HEAD
 =======
 <%= link_to "Login",/views/sessions/new.html.erb%>
 >>>>>>> 4b059a7 (ユーザー関連のビューを編集してログイン/ログアウトのページが表示されるように)
+=======
+
+<main class="layout">
+  <aside class="col left-col">
+    <div class="search-box">
+      <%= form_with url: reviews_path, method: :get, local: true do |f| %>
+        <%= f.text_field :q, value: params[:q], placeholder: "検索", class: "search-input" %>
+        <%= f.submit "検索", class: "search-btn" %>
+      <% end %>
+    </div>
+    
+    
+    <div class="links-box">
+          <h4>ジャンル・プラットフォーム別リンク</h4>
+          <ul class="genre-links">
+            <% ["アクション","RPG","パズル","シミュレーション"].each do |g| %>
+              <li><%= link_to g, reviews_path(genre: g) %></li>
+            <% end %>
+          </ul>
+    
+          <div class="side-thumbs">
+            <% @side_highlights.each do |h| %>
+              <div class="side-thumb">
+                <%= link_to review_path(h) do %>
+                  <% if h.jacket.attached? %>
+                    <%= image_tag h.jacket.variant(resize_to_limit: [200, 200]), alt: h.title %>
+                  <% else %>
+                    <%= image_tag "placeholder-side.jpg", alt: h.title %>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </aside>
+    
+      <section class="col center-col">
+        <div class="list-header">
+          <h2>投稿されたレビューを表示</h2>
+    
+          <div class="sort-box">
+            <%= form_with url: reviews_path, method: :get, local: true do |f| %>
+              <%= hidden_field_tag :q, params[:q] if params[:q].present? %>
+              <label>ソート</label>
+              <%= select_tag :sort, options_for_select([["新着順","new"],["評価順","rating"]], params[:sort]), include_blank: false, onchange: 'this.form.submit()' %>
+            <% end %>
+          </div>
+        </div>
+
+>>>>>>> 577677b (トッページ作成1)
