@@ -13,15 +13,8 @@
   <% end %>
 </div>
 
+
 <%= link_to "New review", new_review_path %>
-<<<<<<< HEAD
-
-
-<<<<<<< HEAD
-=======
-<%= link_to "Login",/views/sessions/new.html.erb%>
->>>>>>> 4b059a7 (ユーザー関連のビューを編集してログイン/ログアウトのページが表示されるように)
-=======
 
 <main class="layout">
   <aside class="col left-col">
@@ -42,7 +35,7 @@
           </ul>
     
           <div class="side-thumbs">
-            <% @side_highlights.each do |h| %>
+            <% (@side_highlights || []).each do |h| %>
               <div class="side-thumb">
                 <%= link_to review_path(h) do %>
                   <% if h.jacket.attached? %>
@@ -70,4 +63,3 @@
           </div>
         </div>
 
->>>>>>> 577677b (トッページ作成1)
