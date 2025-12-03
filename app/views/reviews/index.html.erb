@@ -62,4 +62,42 @@
             <% end %>
           </div>
         </div>
+        
+         <% if @reviews.present? %>
+      <% first_review = @reviews.first %>
+      <!-- 最初の大きめレビュー（画像左、情報右） -->
+      <article class="large-review">
+        <div class="large-thumb">
+          <%= link_to review_path(first_review) do %>
+            <% if first_review.respond_to?(:jacket) && first_review.jacket.attached? %>
+              <%= image_tag first_review.jacket.variant(resize_to_limit: [380, 380]), alt: first_review.title %>
+            <% else %>
+              <%= image_tag "placeholder-large.jpg", alt: first_review.title %>
+            <% end %>
+          <% end %>
+        </div>
+
+        <div class="large-meta">
+          <div class="stars">
+            <%= render partial: "shared/stars", locals: { rating: first_review.try(:rating) } %>
+          </div>
+          <h3 class="title"><%= link_to first_review.title, first_review %></h3>
+          <p class="meta-line"><%= first_review.try(:genre) %>　/　<%= first_review.try(:platform) %></p>
+          <div class="excerpt-box"><%= simple_format(truncate(first_review.body, length: 240)) %></div>
+          <div class="meta-actions">
+            <%= link_to "詳細を見る", review_path(first_review), class: "btn" %>
+          </div>
+        </div>
+      </article>
+    <% end %>
+
+    <!-- 残りを2カラムグリッドで表示 -->
+    <div class="grid-reviews">
+      <% @reviews.offset(1).each do |review| %>
+        <%= render partial: "review_grid_card", locals: { review: review } %>
+      <% end %>
+    </div>
+
+  </section>
+</main>
 
