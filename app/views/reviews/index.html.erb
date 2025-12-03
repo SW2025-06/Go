@@ -15,6 +15,7 @@
 
 
 <%= link_to "New review", new_review_path %>
+<%= link_to "Login", user_session_path %>
 
 <main class="layout">
   <aside class="col left-col">
@@ -24,7 +25,6 @@
         <%= f.submit "検索", class: "search-btn" %>
       <% end %>
     </div>
-    
     
     <div class="links-box">
           <h4>ジャンル・プラットフォーム別リンク</h4>
@@ -53,6 +53,7 @@
       <section class="col center-col">
         <div class="list-header">
           <h2>投稿されたレビューを表示</h2>
+          
     
           <div class="sort-box">
             <%= form_with url: reviews_path, method: :get, local: true do |f| %>
@@ -99,3 +100,4 @@
   </section>
 </main>
 
+        </div>
