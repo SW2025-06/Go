@@ -15,9 +15,6 @@
 .large-review{display:flex;gap:16px;border:1px solid #ddd;padding:12px;margin-bottom:14px;background:#fff;}
 .large-thumb img{width:380px;height:auto;object-fit:cover;display:block;}
 .large-meta{flex:1;display:flex;flex-direction:column;}
-.stars-line{font-size:18px;color:#f5b301;margin-bottom:6px;}
-.star{font-size:18px;color:#ccc;margin-right:2px;}
-.star.filled{color:#f5b301;}
 .title{margin:0 0 6px;font-size:20px;}
 .meta-line{color:#666;margin-bottom:8px;}
 .excerpt-box{border:1px solid #eee;padding:8px;background:#fafafa;margin-bottom:8px;}

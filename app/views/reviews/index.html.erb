@@ -29,7 +29,7 @@
     <div class="links-box">
           <h4>ジャンル・プラットフォーム別リンク</h4>
           <ul class="genre-links">
-            <% ["アクション","RPG","パズル","シミュレーション"].each do |g| %>
+            <% ["アクション","RPG","シミュレーション","シューティング","音楽ゲーム","レースゲーム","ホラーゲーム","ストラテジゲーム","パズル","格闘ゲーム"].each do |g| %>
               <li><%= link_to g, reviews_path(genre: g) %></li>
             <% end %>
           </ul>
@@ -65,7 +65,6 @@
         
          <% if @reviews.present? %>
       <% first_review = @reviews.first %>
-      <!-- 最初の大きめレビュー（画像左、情報右） -->
       <article class="large-review">
         <div class="large-thumb">
           <%= link_to review_path(first_review) do %>
@@ -91,7 +90,6 @@
       </article>
     <% end %>
 
-    <!-- 残りを2カラムグリッドで表示 -->
     <div class="grid-reviews">
       <% @reviews.offset(1).each do |review| %>
         <%= render partial: "review_grid_card", locals: { review: review } %>
