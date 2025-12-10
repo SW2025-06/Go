@@ -16,6 +16,7 @@
 
 <%= link_to "New review", new_review_path %>
 <%= link_to "Login", user_session_path %>
+<%= link_to "Logout", destroy_user_session_path, data: {turbo_method: :delete} %>
 
 <main class="layout">
   <aside class="col left-col">
