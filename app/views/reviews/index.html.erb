@@ -27,7 +27,15 @@
     </div>
     
     <div class="links-box">
-          <h4>ジャンル・プラットフォーム別リンク</h4>
+      
+          <h4>プラットフォーム</h4>
+          <ul class="genre-links">
+            <% ["PC","スマホ","switch","PS4/PS5","Xbox"].each do |g| %>
+              <li><%= link_to g, reviews_path(genre: g) %></li>
+            <% end %>
+          </ul>
+          
+          <h4>ジャンル</h4>
           <ul class="genre-links">
             <% ["アクション","RPG","シミュレーション","シューティング","音楽ゲーム","レースゲーム","ホラーゲーム","ストラテジゲーム","パズル","格闘ゲーム"].each do |g| %>
               <li><%= link_to g, reviews_path(genre: g) %></li>
