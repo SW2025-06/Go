@@ -1,0 +1,29 @@
+<div class="rating-dropholder" data-rating-dropdown>
+  <p class="rd-label"><%= label %></p>
+
+  <div class="rd-dropdown"
+       tabindex="0"
+       role="button"
+       aria-haspopup="listbox"
+       aria-expanded="false"
+       data-dropdown-trigger>
+    <p><i class="fa fa-bars"></i>
+      <span class="rd-current">選択してください</span>
+    </p>
+  </div>
+
+  <ul class="rd-menu" role="listbox" aria-hidden="true" data-dropdown-menu>
+
+    <% items.each do |item| %>
+      <li role="option"
+          tabindex="-1"
+          data-value="<%= item %>"
+          onclick="window.location='<%= reviews_path(name => item) %>'">
+        <i class="fa fa-check"></i> <%= item %>
+      </li>
+    <% end %>
+
+  </ul>
+
+  <input type="hidden" name="<%= name %>" value="" data-dropdown-input>
+</div>
