@@ -195,125 +195,14 @@ a { color: inherit; text-decoration: none; }
 
 
 /* ドロップダウンの枠 */
-.rating-dropholder {
-  width: 100%;
-  height: 56px;
-  margin-bottom: 16px;
-  padding-left: 14px;
-  border-radius: 10px;
-  position: relative;
-  background: linear-gradient(180deg, #ffffff, #f6f8ff);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
 
-/* （ジャンル / プラットフォーム） */
-.rd-label {
-  font-size: 14px;
-  font-weight: 700;
-  color: #374151;
-  white-space: nowrap;
-}
-
-/* 選択部分 */
-.rd-dropdown {
-  flex: 1;
-  height: 44px;
-  padding: 0 14px;
-  border-radius: 8px;
-  background: linear-gradient(180deg, #2563eb, #1d4ed8);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  position: relative;
-  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.rd-dropdown:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.45);
-}
-
-/* ▼アイコン */
-.rd-dropdown::after {
-  content: "▾";
-  position: absolute;
-  right: 14px;
-  font-size: 18px;
-  opacity: 0.9;
-}
-
-/* 表示テキスト */
-.rd-dropdown p {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 600;
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-/* 本体 */
-.rd-menu {
-  position: absolute;
-  top: 64px;
-  left: 0;
-  right: 0;
-  background: linear-gradient(180deg, #3b82f6, #1e40af);
-  border-radius: 12px;
-  padding: 8px 0;
-  list-style: none;
-  margin: 0;
-  opacity: 0;
-  transform: translateY(20px) rotateX(10deg);
-  transform-origin: top;
-  transition: all 0.25s ease;
-  pointer-events: none;
-  z-index: 50;
-  box-shadow: 0 18px 40px rgba(30, 64, 175, 0.45);
-}
-
-/* ドロップダウン開いた状態 */
-.rd-menu.show {
-  opacity: 1;
-  transform: translateY(0) rotateX(0deg);
-  pointer-events: auto;
-}
-
-/* 各項目 */
-.rd-menu li {
-  padding: 10px 16px;
-  color: #e5edff;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: background 0.18s ease, padding-left 0.18s ease;
-}
-
-/* ホバー */
-.rd-menu li:hover {
-  background: rgba(255, 255, 255, 0.15);
-  padding-left: 22px;
-}
-
-/* 中のリンク */
-.rd-menu li a {
-  color: inherit;
-  text-decoration: none;
-  width: 100%;
-  display: block;
-}
-
-/* アイコン */
-.rd-menu i,
-.rd-dropdown i {
-  opacity: 0.9;
-}
+/* dropdown styles */
+.rating-dropholder { width:100%; margin-bottom:12px; padding:12px; border-radius:10px; background:linear-gradient(#fff,#f7fbff); border:1px solid rgba(0,0,0,0.04); display:flex; align-items:center; gap:12px; position:relative; }
+.rd-label{ min-width:110px; font-weight:700; color:#374151; }
+.rd-dropdown{ flex:1; background:linear-gradient(180deg,#2563eb,#1d4ed8); color:#fff; padding:10px 14px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:space-between; }
+.rd-dropdown:focus-visible{ box-shadow:0 6px 18px rgba(37,99,235,0.2); outline:none; }
+.rd-current{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.rd-menu{ position:absolute; top:calc(100% + 10px); left:12px; right:12px; background:linear-gradient(180deg,#3b82f6,#1e40af); border-radius:10px; padding:6px 0; opacity:0; transform:translateY(6px); transition:all .18s ease; pointer-events:none; z-index:60; box-shadow:0 18px 40px rgba(30,64,175,0.2); }
+.rd-menu.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
+.rd-menu li{ padding:10px 14px; color:#eaf4ff; font-weight:600; cursor:pointer; }
+.rd-menu li:hover{ background:rgba(255,255,255,0.08); padding-left:18px; }

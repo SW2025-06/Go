@@ -1,25 +1,19 @@
-<div class="rating-dropholder" data-rating-dropdown>
-  <p class="rd-label"><%= label %></p>
+<div data-controller="dropdown" class="rating-dropholder" style="position:relative;">
+  <div class="rd-label"><%= label %></div>
 
-  <div class="rd-dropdown"
-       tabindex="0"
-       role="button"
-       aria-haspopup="listbox"
-       aria-expanded="false"
-       data-dropdown-trigger>
-    <p><i class="fa fa-bars"></i>
-      <span class="rd-current">選択してください</span>
-    </p>
+  <div class="rd-dropdown" data-dropdown-target="trigger" data-action="click->dropdown#toggle" tabindex="0" role="button" aria-haspopup="listbox" aria-expanded="false">
+    <span data-dropdown-target="current" class="rd-current"><%= params[name].presence || "全て" %></span>
   </div>
 
-  <ul class="rd-menu" role="listbox" aria-hidden="true" data-dropdown-menu>
+  <ul class="rd-menu" data-dropdown-target="menu" role="listbox" aria-hidden="true">
     <% items.each do |item| %>
-      <li role="option" tabindex="-1" data-value="<%= item %>">
-        <i class="fa fa-check"></i>
-        <%= link_to item, reviews_path(request.params.merge(name.to_sym => item)), class: "rd-link" %>
+      <li data-value="<%= item %>" data-action="click->dropdown#select" style="list-style:none;">
+        <%= link_to item, reviews_path(request.params.merge(name.to_sym => item)), class: "rd-link", style: "color:inherit; text-decoration:none; display:block; width:100%;" %>
       </li>
     <% end %>
   </ul>
-
-  <input type="hidden" name="<%= name %>" value="" data-dropdown-input>
 </div>
+
+
+
+

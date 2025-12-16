@@ -1,70 +1,47 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: %i[ show edit update destroy ]
 
-  # GET /reviews or /reviews.json
+  # GET /reviews
   def index
-    @reviews = Review.all
+    @reviews = Review.order(created_at: :desc)
+    @reviews = @reviews.order(rating: :desc) if params[:sort] == "rating"
+    @side_highlights = Review.order(Arel.sql("RANDOM()")).limit(2) # DB に合わせて変更可
   end
 
-  # GET /reviews/1 or /reviews/1.json
-  def show
-  end
+  def show; end
+  def new; @review = Review.new; end
+  def edit; end
 
-  # GET /reviews/new
-  def new
-    @review = Review.new
-  end
-
-  # GET /reviews/1/edit
-  def edit
-  end
-
-  # POST /reviews or /reviews.json
   def create
     @review = Review.new(review_params)
-
-    respond_to do |format|
-      if @review.save
-        format.html { redirect_to @review, notice: "Review was successfully created." }
-        format.json { render :show, status: :created, location: @review }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @review.errors, status: :unprocessable_entity }
-      end
+    if @review.save
+      redirect_to @review, notice: "Review was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /reviews/1 or /reviews/1.json
   def update
-    respond_to do |format|
-      if @review.update(review_params)
-        format.html { redirect_to @review, notice: "Review was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @review }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @review.errors, status: :unprocessable_entity }
-      end
+    if @review.update(review_params)
+      redirect_to @review, notice: "Review was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
-  # DELETE /reviews/1 or /reviews/1.json
   def destroy
     @review.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to reviews_path, notice: "Review was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
-    end
+    redirect_to reviews_path, notice: "Review was successfully destroyed.", status: :see_other
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_review
-      @review = Review.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def review_params
-      params.expect(review: [ :title, :body, :rating, :user_id, :game_id ])
-    end
+  def set_review
+    @review = Review.find(params[:id])
+  end
+
+  def review_params
+    params.require(:review).permit(:title, :body, :rating, :user_id, :game_id, :platform, :genre)
+  end
 end
+
