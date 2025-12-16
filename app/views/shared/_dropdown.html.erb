@@ -13,16 +13,12 @@
   </div>
 
   <ul class="rd-menu" role="listbox" aria-hidden="true" data-dropdown-menu>
-
     <% items.each do |item| %>
-      <li role="option"
-          tabindex="-1"
-          data-value="<%= item %>"
-          onclick="window.location='<%= reviews_path(name => item) %>'">
-        <i class="fa fa-check"></i> <%= item %>
+      <li role="option" tabindex="-1" data-value="<%= item %>">
+        <i class="fa fa-check"></i>
+        <%= link_to item, reviews_path(request.params.merge(name.to_sym => item)), class: "rd-link" %>
       </li>
     <% end %>
-
   </ul>
 
   <input type="hidden" name="<%= name %>" value="" data-dropdown-input>
