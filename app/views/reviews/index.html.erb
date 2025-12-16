@@ -2,6 +2,18 @@
 
 <% content_for :title, "5GAME" %>
 
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const btn = document.getElementById("test-dropdown-button");
+  if (btn) {
+    btn.addEventListener("click", function() {
+      alert("クリックイベントが動いています");
+    });
+  }
+});
+</script>
+
 <h1>5GAME</h1>
 
 <div id="reviews">
