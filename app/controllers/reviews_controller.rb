@@ -1,70 +1,54 @@
 class ReviewsController < ApplicationController
-  before_action :set_review, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, only: [:new, :create, :destroy]
 
-  # GET /reviews or /reviews.json
   def index
-    @reviews = Review.all
-  end
-
-  # GET /reviews/1 or /reviews/1.json
-  def show
-  end
-
-  # GET /reviews/new
-  def new
+    @reviews = Review.order(created_at: :desc).limit(50)
     @review = Review.new
   end
 
-  # GET /reviews/1/edit
-  def edit
+  def new
+    @review = Review.new
+    # new.html.erb は turbo_frame 内でレンダリングされる想定
+    render partial: "form", locals: { review: @review }
   end
 
-  # POST /reviews or /reviews.json
   def create
-    @review = Review.new(review_params)
+    @review = current_user.reviews.build(review_params)
 
     respond_to do |format|
       if @review.save
-        format.html { redirect_to @review, notice: "Review was successfully created." }
-        format.json { render :show, status: :created, location: @review }
+        format.turbo_stream do
+          # prepend でリスト先頭に追加するテンプレを返す（下でファイル例あり）
+          render turbo_stream: [
+            turbo_stream.prepend("reviews_list", partial: "reviews/review", locals: { review: @review }),
+            turbo_stream.replace("new_review", partial: "reviews/new_link") # フォームを消して "New" リンクに戻す例
+          ]
+        end
+        format.html { redirect_to reviews_path, notice: "レビューを作成しました。" }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @review.errors, status: :unprocessable_entity }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("new_review", partial: "reviews/form", locals: { review: @review }), status: :unprocessable_entity }
+        format.html { render :index, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /reviews/1 or /reviews/1.json
-  def update
-    respond_to do |format|
-      if @review.update(review_params)
-        format.html { redirect_to @review, notice: "Review was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @review }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @review.errors, status: :unprocessable_entity }
-      end
-    end
+  # オプション: 個別表示や削除
+  def show
+    @review = Review.find(params[:id])
   end
 
-  # DELETE /reviews/1 or /reviews/1.json
   def destroy
-    @review.destroy!
-
+    @review = current_user.reviews.find(params[:id])
+    @review.destroy
     respond_to do |format|
-      format.html { redirect_to reviews_path, notice: "Review was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
+      format.turbo_stream { render turbo_stream: turbo_stream.remove(dom_id(@review)) }
+      format.html { redirect_to reviews_path, notice: "削除しました" }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_review
-      @review = Review.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def review_params
-      params.expect(review: [ :title, :body, :rating, :user_id, :game_id ])
-    end
+  def review_params
+    params.require(:review).permit(:title, :body)
+  end
 end

@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   resources :reviews
   resources :games
   resources :users
+  resources :reviews, only: [:index, :new, :create, :show, :destroy]
+
   root "reviews#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

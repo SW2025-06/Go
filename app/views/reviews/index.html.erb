@@ -14,7 +14,13 @@
 </div>
 
 
-<%= link_to "New review", new_review_path %>
+<%= turbo_frame_tag "new_review" do %>
+  <% if user_signed_in? %>
+    <%= render "new_link" %>
+  <% else %>
+    <%= link_to "ログインしてレビューを書く", new_user_session_path %>
+  <% end %>
+<% end %>
 <%= link_to "Login", user_session_path %>
 <%= link_to "Logout", destroy_user_session_path, data: {turbo_method: :delete} %>
 
@@ -62,6 +68,7 @@
       <section class="col center-col">
         <div class="list-header">
           <h2>投稿されたレビューを表示</h2>
+          
           
     
           <div class="sort-box">

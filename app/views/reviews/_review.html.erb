@@ -1,27 +1,9 @@
-<div id="<%= dom_id review %>">
-  <p>
-    <strong>Title:</strong>
-    <%= review.title %>
-  </p>
+<div id="<%= dom_id(review) %>" class="review">
+  <h3><%= link_to review.title, review_path(review) %></h3>
+  <p><%= simple_format(review.body) %></p>
+  <p><small>作成: <%= l(review.created_at, format: :short) %> by <%= review.user&.username || "匿名" %></small></p>
 
-  <p>
-    <strong>Body:</strong>
-    <%= review.body %>
-  </p>
-
-  <p>
-    <strong>Rating:</strong>
-    <%= review.rating %>
-  </p>
-
-  <p>
-    <strong>User:</strong>
-    <%= review.user_id %>
-  </p>
-
-  <p>
-    <strong>Game:</strong>
-    <%= review.game_id %>
-  </p>
-
+  <% if current_user == review.user %>
+    <%= link_to "Delete", review_path(review), method: :delete, data: { confirm: "削除しますか？", turbo_confirm: "削除しますか？" } %>
+  <% end %>
 </div>

@@ -1,42 +1,30 @@
-<%= form_with(model: review) do |form| %>
-  <% if review.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(review.errors.count, "error") %> prohibited this review from being saved:</h2>
+<%= turbo_frame_tag "new_review" do %>
+  <%= form_with(model: review) do |f| %>
+    <% if review.errors.any? %>
+      <div class="errors">
+        <h3><%= pluralize(review.errors.count, "error") %> prevented this review from saving:</h3>
+        <ul>
+          <% review.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-      <ul>
-        <% review.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <div>
+      <%= f.label :title %><br>
+      <%= f.text_field :title, required: true %>
+    </div>
+
+    <div>
+      <%= f.label :body %><br>
+      <%= f.text_area :body, rows: 6 %>
+    </div>
+
+    <div>
+      <%= f.submit "Create Review" %>
+      <!-- キャンセル：リンクで元に戻す -->
+      <%= link_to "Cancel", reviews_path, data: { turbo_frame: "new_review" } %>
     </div>
   <% end %>
-
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
-  </div>
-
-  <div>
-    <%= form.label :body, style: "display: block" %>
-    <%= form.textarea :body %>
-  </div>
-
-  <div>
-    <%= form.label :rating, style: "display: block" %>
-    <%= form.number_field :rating %>
-  </div>
-
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
-  </div>
-
-  <div>
-    <%= form.label :game_id, style: "display: block" %>
-    <%= form.text_field :game_id %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
 <% end %>
