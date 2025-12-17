@@ -14,16 +14,18 @@
 </div>
 
 
-<%= turbo_frame_tag "new_review" do %>
-  <% if user_signed_in? %>
+<% if user_signed_in? %>
+  <!-- ログイン済み-->
+  <%= turbo_frame_tag "new_review" do %>
     <%= render "new_link" %>
-  <% else %>
-    <%= link_to "ログインしてレビューを書く", new_user_session_path %>
   <% end %>
+
+  <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete } %>
+<% else %>
+  <!-- 未ログイン-->
+  <%= link_to "Login", new_user_session_path %> |
+  <%= link_to "Sign up", new_user_registration_path %>
 <% end %>
-<%= link_to "Login", user_session_path %>
-<%= link_to "Logout", destroy_user_session_path, data: {turbo_method: :delete} %>
-<%= link_to "Sign Up", new_user_registration_path %>
 
 <main class="layout">
   <aside class="col left-col">
