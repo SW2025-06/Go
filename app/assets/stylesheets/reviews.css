@@ -190,3 +190,102 @@ a { color: inherit; text-decoration: none; }
   .large-meta { margin-top:6px; }
   .layout { gap:12px; }
 }
+
+
+
+
+/* ドロップダウンの枠 */
+/* --- dropdown (adapted from original) --- */
+.dropholder{
+  width: 100%;
+  max-width: 320px;
+  margin: 12px 0;
+  padding: 0 12px;
+  border-radius:10px;
+  font:16px "Noto Sans JP", Arial, sans-serif;
+  color: #111;
+  position: relative;
+  box-sizing:border-box;
+  background: linear-gradient(#fff,#fbfdff);
+  border:1px solid rgba(15,23,42,0.06);
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+}
+
+/* label left */
+.d-label{
+  float:left;
+  line-height:56px;
+  font-weight:700;
+  margin-right:12px;
+  color:#0b1220;
+}
+
+/* dropdown trigger (blue pill like original) */
+.dropdown{
+  margin-left: auto;
+  float: right;
+  width: 140px;
+  padding:0 14px;
+  border-radius:10px;
+  cursor: pointer;
+  height:44px;
+  border-left:1px solid rgba(255,255,255,0.06);
+  position: relative;
+  background: linear-gradient(#2563eb,#1d4ed8);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow: 0 8px 22px rgba(37,99,235,0.18);
+}
+.dropdown p { margin:0; display:flex; gap:8px; align-items:center; font-weight:700; }
+.dropdown:focus { outline:none; box-shadow:0 8px 30px rgba(37,99,235,0.22); }
+
+/* menu style (floating) */
+.menu{
+  position: absolute;
+  right: 12px;
+  top: calc(100% + 10px);
+  width: 220px;
+  cursor: pointer;
+  opacity:0;
+  transform-origin: top center;
+  transform: translateY(12px) rotateX(10deg);
+  backface-visibility: hidden;
+  background: linear-gradient(#4dc2f8 ,#0d82b9);
+  border:2px solid #0d82b9;
+  border-radius:10px;
+  transition: all 220ms cubic-bezier(.2,.9,.2,1);
+  z-index:50;
+  overflow:hidden;
+  pointer-events: none;
+  box-shadow: 0 18px 40px rgba(13,130,185,0.18);
+}
+.menu li{
+  padding: 10px 12px;
+  border-bottom:1px dotted rgba(255,255,255,0.15);
+  color:#e8f8ff;
+  transition: all 160ms;
+  list-style:none;
+  display:block;
+}
+.menu li:hover{
+  background: rgba(255,255,255,0.08);
+  padding-left:20px;
+}
+.menu li:last-child{ border-bottom:none; }
+.menu .menu-link { color:inherit; text-decoration:none; display:block; width:100%; }
+
+/* show */
+.menu.show{
+  opacity:1;
+  transform: translateY(0) rotateX(0deg);
+  pointer-events: auto;
+}
+
+/* small screens: stack */
+@media (max-width:540px){
+  .dropholder{ max-width:100%; padding:10px; }
+  .dropdown{ width:140px; float:none; margin-left:auto; }
+  .menu{ right:12px; left:12px; width:auto; }
+}

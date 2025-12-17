@@ -2,6 +2,18 @@
 
 <% content_for :title, "5GAME" %>
 
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const btn = document.getElementById("test-dropdown-button");
+  if (btn) {
+    btn.addEventListener("click", function() {
+      alert("クリックイベントが動いています");
+    });
+  }
+});
+</script>
+
 <h1>5GAME</h1>
 
 <div id="reviews">
@@ -38,19 +50,17 @@
     
     <div class="links-box">
       
-          <h4>プラットフォーム</h4>
-          <ul class="genre-links">
-            <% ["PC","スマホ","switch","PS4/PS5","Xbox"].each do |g| %>
-              <li><%= link_to g, reviews_path(genre: g) %></li>
-            <% end %>
-          </ul>
+          <!-- プラットフォームのドロップダウン -->
+          <%= render "shared/dropdown", 
+                label: "プラットフォーム",
+                name: "platform",
+                items: ["PC","スマホ","Switch","PS4/PS5","Xbox"] %>
           
-          <h4>ジャンル</h4>
-          <ul class="genre-links">
-            <% ["アクション","RPG","シミュレーション","シューティング","音楽ゲーム","レースゲーム","ホラーゲーム","ストラテジゲーム","パズル","格闘ゲーム"].each do |g| %>
-              <li><%= link_to g, reviews_path(genre: g) %></li>
-            <% end %>
-          </ul>
+          <!-- ジャンルのドロップダウン -->
+          <%= render "shared/dropdown", 
+                label: "ジャンル",
+                name: "genre",
+                items: ["アクション","RPG","シミュレーション","シューティング","音楽ゲーム","レースゲーム","ホラーゲーム","ストラテジ","パズル","格闘ゲーム"] %>
     
           <div class="side-thumbs">
             <% (@side_highlights || []).each do |h| %>

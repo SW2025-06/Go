@@ -1,0 +1,19 @@
+<div class="dropholder" data-controller="dropdown" data-dropdown-name-value="<%= name %>">
+  <p class="d-label"><%= label %></p>
+
+  <div class="dropdown" data-dropdown-target="trigger" tabindex="0" role="button" aria-expanded="false">
+    <p><i class="fa fa-bars"></i> <span data-dropdown-target="current"><%= params[name].presence || "選択してください" %></span></p>
+  </div>
+
+  <ul class="menu" data-dropdown-target="menu" aria-hidden="true">
+    <% items.each do |item| %>
+      <li data-value="<%= item %>">
+        <%= link_to item, reviews_path(request.params.merge(name.to_sym => item)), class: "menu-link" %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+
+
+
