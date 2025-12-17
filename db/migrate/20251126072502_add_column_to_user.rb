@@ -1,6 +1,6 @@
 class AddColumnToUser < ActiveRecord::Migration[8.0]
   def change
     add_column :users, :username, :string
-    add_index :users, :username, unique: true
+    remove_index :users, :username if index_exists?(:users, :username)
   end
 end
