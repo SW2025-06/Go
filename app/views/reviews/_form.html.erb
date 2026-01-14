@@ -2,7 +2,6 @@
   <%= form_with(model: review) do |f| %>
     <% if review.errors.any? %>
       <div class="errors">
-        <h3><%= pluralize(review.errors.count, "error") %> prevented this review from saving:</h3>
         <ul>
           <% review.errors.full_messages.each do |msg| %>
             <li><%= msg %></li>
@@ -17,13 +16,32 @@
     </div>
 
     <div>
-      <%= f.label :body %><br>
-      <%= f.text_area :body, rows: 6 %>
+      <%= f.label :genre %><br>
+      <%= f.select :genre, options_for_select(["アクション","RPG","シミュレーション","シューティング","音楽ゲーム","レースゲーム","ホラーゲーム","ストラテジゲーム","パズル","格闘ゲーム"], review.genre), { include_blank: "選択してください" } %>
     </div>
 
     <div>
-      <%= f.submit "Create Review" %>
-      <!-- キャンセル：リンクで元に戻す -->
+      <%= f.label :platform %><br>
+      <%= f.select :platform, options_for_select(["PC","スマホ","switch","PS4/PS5","Xbox"], review.platform), { include_blank: "選択してください" } %>
+    </div>
+
+    <div>
+      <%= f.label :jacket, "ジャケット画像" %><br>
+      <%= f.file_field :jacket, accept: "image/png,image/jpeg,image/webp" %>
+      <% if review.jacket.attached? %>
+        <div class="preview">
+          <%= image_tag review.jacket.variant(resize_to_limit: [200, 200]) %>
+        </div>
+      <% end %>
+    </div>
+
+    <div>
+      <%= f.label :body, "感想／説明" %><br>
+      <%= f.text_area :body, rows: 6, required: true %>
+    </div>
+
+    <div>
+      <%= f.submit (review.persisted? ? "更新" : "投稿") %>
       <%= link_to "Cancel", reviews_path, data: { turbo_frame: "new_review" } %>
     </div>
   <% end %>

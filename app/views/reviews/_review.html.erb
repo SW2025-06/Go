@@ -1,9 +1,13 @@
 <div id="<%= dom_id(review) %>" class="review">
-  <h3><%= link_to review.title, review_path(review) %></h3>
-  <p><%= simple_format(review.body) %></p>
-  <p><small>作成: <%= l(review.created_at, format: :short) %> by <%= review.user&.username || "匿名" %></small></p>
-
-  <% if current_user == review.user %>
-    <%= link_to "Delete", review_path(review), method: :delete, data: { confirm: "削除しますか？", turbo_confirm: "削除しますか？" } %>
+  <% if review.jacket.attached? %>
+    <div class="thumb">
+      <%= link_to review_path(review) do %>
+        <%= image_tag review.jacket.variant(resize_to_limit: [380, 380]), alt: review.title %>
+      <% end %>
+    </div>
   <% end %>
+
+  <h3><%= link_to review.title, review %></h3>
+  <p><%= review.genre %> / <%= review.platform %></p>
+  <p><%= simple_format(truncate(review.body, length: 240)) %></p>
 </div>

@@ -3,6 +3,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :reviews, dependent: :destroy
+
   # username 必須・ユニーク
   validates :username, presence: true, uniqueness: { case_sensitive: false }
 
