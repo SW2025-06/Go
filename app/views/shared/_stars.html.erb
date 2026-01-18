@@ -1,0 +1,21 @@
+<style>
+        /* 一覧・詳細表示用の星 */
+    .star-display {
+      display: inline-block;
+    }
+    
+    .star-display-img {
+      width: 120px;   /* 好みで調整（例: 100px / 140px） */
+      height: auto;
+      display: block;
+    }
+</style>
+
+<% rating = (local_assigns[:rating] || 0).to_i %>
+<% rating = [[rating, 0].max, 5].min %>
+
+<div class="star-display" aria-label="<%= "#{rating} / 5" %>">
+  <%= image_tag "stars/star#{rating}.png",
+        alt: "#{rating} / 5",
+        class: "star-display-img" %>
+</div>

@@ -2,7 +2,6 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -15,13 +14,19 @@
     <%= csp_meta_tag %>
 
     <%= yield :head %>
+    
+    <style>
+  /* デバッグ用：成功すれば背景が薄黄色、ヘッダ下が赤線になります */
+  body 
+  .site-header { border-bottom: 4px solid #ef4444 !important; }
+  </style>
+
 
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "app", "reviews", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 

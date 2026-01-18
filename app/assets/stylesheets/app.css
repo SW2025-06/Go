@@ -1,283 +1,48 @@
-/* ヘッダ */
-.site-header {
-  background: #ffffff;
-  border-bottom: 1px solid #e6e6e6;
-  padding: 12px 0;
-  width: 100%;
-}
+/* app.css - development bootstrap for styles */
 
-.header-outer {
-  width: 100%;
-}
-
-.header-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  padding: 0 24px;
-}
-
-/* ロゴ/サイトタイトル */
-.site-title {
-  margin: 0;
-  font-size: 28px;
-  font-weight: 700;
+body {
+  font-family: "Noto Sans JP", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   color: #111827;
-  text-decoration: none;
-}
-
-/* 認証リンク */
-.auth-nav {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* 簡易ボタン */
-.btn.small {
-  padding: 6px 10px;
-  background: #2563eb;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-/* Logout の強調（任意）*/
-.btn.small.danger {
-  background: #ef4444;
-}
-
-/* 単純リンク風 */
-.auth-link {
-  padding: 6px 10px;
-  color: #1f2937;
-  text-decoration: none;
-  border-radius: 6px;
-  border: 1px solid transparent;
-}
-
-/* Sign up を目立たせる */
-.auth-link.signup {
-  background: #fff;
-  border: 1px solid #2563eb;
-  color: #2563eb;
-}
-
-/* モバイルで縦並び */
-@media (max-width: 640px) {
-  .header-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .auth-nav {
-    width: 100%;
-    justify-content: flex-end;
-  }
-}
-
-/* ページ本体余白 */
-.site-main {
-  max-width: 1200px;
-  margin: 24px auto;
-  padding: 0 16px;
-}
-
-/* --- サインアップ／ログイン用カード --- */
-.auth-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 48px 16px;
-  min-height: calc(100vh - 120px);
-  background: #f7f9fb;
-}
-
-.auth-card {
-  width: 100%;
-  max-width: 520px;
   background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(16,24,40,0.08);
-  overflow: hidden;
-}
-
-.auth-card__header {
-  padding: 28px 30px 0 30px;
-  text-align: left;
-}
-
-.auth-card__header h2 {
-  margin: 0 0 6px 0;
-  font-size: 24px;
-  color: #0f172a;
-}
-
-.auth-card__header .muted {
   margin: 0;
-  color: #6b7280;
-  font-size: 14px;
+  padding: 0;
 }
 
-.auth-card__body {
-  padding: 20px 30px 30px 30px;
-}
+/* container for main content */
+.site-main { max-width: 1200px; margin: 24px auto; padding: 0 16px; }
 
-.form-group {
-  margin-bottom: 16px;
-}
+/* base card used on many pages */
+.auth-page { display:flex; align-items:center; justify-content:center; padding:48px 16px; min-height:calc(100vh - 120px); background: #f7f9fb; }
+.auth-card { width:100%; max-width:880px; background:#fff; border-radius:12px; box-shadow:0 8px 30px rgba(16,24,40,0.06); overflow:hidden; }
+.auth-card__header { padding:20px 28px; }
+.auth-card__body { padding:18px 28px; }
 
-.form-label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
-  color: #111827;
-}
+/* form-card */
+.form-card { background:#fff; border-radius:10px; padding:18px; box-shadow:0 6px 22px rgba(16,24,40,0.06); margin-bottom:18px; max-width:720px; margin-left:auto; margin-right:auto; }
 
-.form-control {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #e6edf3;
-  background: #fff;
-  box-sizing: border-box;
-  font-size: 14px;
-  color: #0f172a;
-}
+/* star */
+.star-rating { display:flex; gap:8px; align-items:center; margin:6px 0; }
+.star-img { width:40px !important; height:auto !important; display:block !important; object-fit:contain !important; }
 
-.form-control:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 4px rgba(37,99,235,0.06);
-}
-
-.password-field {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.btn-toggle-password {
-  position: absolute;
-  right: 8px;
-  top: 6px;
-  background: transparent;
-  border: none;
-  color: #2563eb;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 6px 8px;
-  border-radius: 6px;
-}
-
-.form-actions {
-  margin-top: 12px;
-  text-align: center;
-}
-
-.btn {
-  display: inline-block;
-  text-decoration: none;
-  cursor: pointer;
-  border-radius: 8px;
-  padding: 10px 16px;
-  font-weight: 600;
-  border: 1px solid transparent;
-}
-
-.btn.primary {
-  background: #2563eb;
-  color: white;
-  border-color: #2563eb;
-}
-
-.btn.large {
-  padding: 12px 20px;
-  font-size: 16px;
-}
-
-/* エラーメッセージ */
-.errors, .field_with_errors {
-  color: #b91c1c;
-  margin-bottom: 12px;
-}
-
-.auth-card__footer {
-  padding: 8px 30px 28px 30px;
-  text-align: center;
-  border-top: 1px solid #f1f5f9;
-}
-
-.muted {
-  color: #6b7280;
-}
-
-.small {
-  font-size: 12px;
-}
-
-/* form card */
-.form-card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 18px;
-  box-shadow: 0 6px 22px rgba(16,24,40,0.06);
-  margin-bottom: 18px;
-}
-
-.form-row {
-  margin-bottom: 12px;
-}
-
-.form-label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 700;
-}
-
-.form-control {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #e6edf3;
-}
-
-.form-control-file {
-  display: block;
-}
-
-.form-actions {
-  margin-top: 14px;
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-/* star rating */
-.star-rating {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-.star-rating input[type="radio"] {
-  display: none;
-}
-.star-label {
-  cursor: pointer;
-  display: inline-block;
-  transition: transform .12s ease;
-  border-radius: 6px;
-  padding: 4px;
-}
-.star-label:hover { transform: translateY(-3px); }
-.star-label.selected { outline: 2px solid #2563eb; background: rgba(37,99,235,0.06); }
-.star-img { width: 48px; height: auto; display: block; }
+/* simple form controls */
+.form-label { display:block; margin-bottom:6px; font-weight:700; }
+.form-control { width:100%; padding:10px; border-radius:8px; border:1px solid #e6edf3; box-sizing:border-box; }
+.form-actions { display:flex; gap:12px; justify-content:flex-end; margin-top:12px; }
+.btn.primary { background:#2563eb; color:#fff; border-radius:8px; padding:10px 16px; border:0; cursor:pointer; }
 
 /* responsive */
-@media (max-width: 640px) {
-  .star-img { width: 36px; }
-  .form-card { padding: 14px; }
+@media (max-width:880px) {
+  .form-grid { grid-template-columns: 1fr !important; }
+  .star-img { width:28px !important; }
+}
+
+/* 一覧・詳細表示用の星 */
+.star-display {
+  display: inline-block;
+}
+
+.star-display-img {
+  width: 120px;   /* 好みで調整（例: 100px / 140px） */
+  height: auto;
+  display: block;
 }

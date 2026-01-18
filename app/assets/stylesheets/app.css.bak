@@ -1,0 +1,409 @@
+/* ヘッダ */
+.site-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e6e6e6;
+  padding: 12px 0;
+  width: 100%;
+}
+
+.header-outer {
+  width: 100%;
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 24px;
+}
+
+/* ロゴ/サイトタイトル */
+.site-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  text-decoration: none;
+}
+
+/* 認証リンク */
+.auth-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 簡易ボタン */
+.btn.small {
+  padding: 6px 10px;
+  background: #2563eb;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Logout の強調（任意）*/
+.btn.small.danger {
+  background: #ef4444;
+}
+
+/* 単純リンク風 */
+.auth-link {
+  padding: 6px 10px;
+  color: #1f2937;
+  text-decoration: none;
+  border-radius: 6px;
+  border: 1px solid transparent;
+}
+
+/* Sign up を目立たせる */
+.auth-link.signup {
+  background: #fff;
+  border: 1px solid #2563eb;
+  color: #2563eb;
+}
+
+/* モバイルで縦並び */
+@media (max-width: 640px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .auth-nav {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* ページ本体余白 */
+.site-main {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+/* --- サインアップ／ログイン用カード --- */
+.auth-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+  min-height: calc(100vh - 120px);
+  background: #f7f9fb;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 520px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(16,24,40,0.08);
+  overflow: hidden;
+}
+
+.auth-card__header {
+  padding: 28px 30px 0 30px;
+  text-align: left;
+}
+
+.auth-card__header h2 {
+  margin: 0 0 6px 0;
+  font-size: 24px;
+  color: #0f172a;
+}
+
+.auth-card__header .muted {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.auth-card__body {
+  padding: 20px 30px 30px 30px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e6edf3;
+  background: #fff;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.06);
+}
+
+.password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.btn-toggle-password {
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  background: transparent;
+  border: none;
+  color: #2563eb;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.form-actions {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.btn.primary {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+.btn.large {
+  padding: 12px 20px;
+  font-size: 16px;
+}
+
+/* エラーメッセージ */
+.errors, .field_with_errors {
+  color: #b91c1c;
+  margin-bottom: 12px;
+}
+
+.auth-card__footer {
+  padding: 8px 30px 28px 30px;
+  text-align: center;
+  border-top: 1px solid #f1f5f9;
+}
+
+.muted {
+  color: #6b7280;
+}
+
+.small {
+  font-size: 12px;
+}
+
+/* form card */
+.form-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 6px 22px rgba(16,24,40,0.06);
+  margin-bottom: 18px;
+}
+
+.form-row {
+  margin-bottom: 12px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e6edf3;
+}
+
+.form-control-file {
+  display: block;
+}
+
+.form-actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* ===== 星評価：安定版スタイル ===== */
+.star-rating {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 6px 0;
+}
+
+/* ラベル（星画像を囲む） */
+.star-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  cursor: pointer;
+  user-select: none;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+/* 星画像サイズを確実に指定（調整可） */
+.star-img {
+  width: 40px !important;    /* デスクトップの星サイズ（好みで 32/36/40 に） */
+  height: auto !important;
+  display: block !important;
+  object-fit: contain !important;
+}
+
+/* モバイル用の小さいサイズ */
+@media (max-width: 640px) {
+  .star-img { width: 28px !important; }
+  .star-rating { gap: 6px; }
+}
+
+/* ラジオを確実に目に見えなくする（ブラウザ互換性重視） */
+.star-label input[type="radio"] {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  opacity: 0 !important;
+}
+
+/* 選択された星（その値以下をハイライトするJSで .on を付与） */
+.star-label.on .star-img {
+  filter: none;
+  /* ここに on 時の見た目を入れる（もし画像が白黒なら色をつける等） */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(16,24,40,0.08);
+}
+
+/* フォーム幅を抑えて見やすく */
+.form-card { max-width: 720px; margin: 0 auto; }
+
+/* ===== 強制：星評価の最終上書き（末尾に入れてください） ===== */
+
+/* 星画像を確実に縮小（最優先） */
+.form-card .star-rating .star-img,
+.star-rating .star-img {
+  width: 40px !important;
+  height: auto !important;
+  max-width: 40px !important;
+  display: block !important;
+  object-fit: contain !important;
+}
+
+/* モバイル用 */
+@media (max-width: 640px) {
+  .form-card .star-rating .star-img,
+  .star-rating .star-img {
+    width: 28px !important;
+    max-width: 28px !important;
+  }
+}
+
+/* ラジオを確実に画面外に退避（全ての review ラジオに作用） */
+input[type="radio"][name^="review"] {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 追加安全網：ラベル内の input も隠す */
+.star-label input[type="radio"] {
+  position: absolute !important;
+  left: -9999px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* .on クラスの見た目（必要なら色差分を強調） */
+.star-label.on .star-img {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.08) !important;
+}
+
+/* 余白が大きすぎると感じるならラベルの padding を縮める */
+.star-label { padding: 0 !important; margin: 0 6px !important; }
+
+/* 末尾に追加（強制） */
+img[src*="/assets/stars/"].star-img,
+img[src*="/assets/stars/"] {
+  width: 40px !important;
+  max-width: 40px !important;
+  height: auto !important;
+  display: block !important;
+}
+
+/* ----- 追加：購入リンクフィールドとフォーム微調整 ----- */
+
+/* 保持している form-grid / rating-block スタイルの微調整 */
+.form-grid { display: grid; grid-template-columns: 260px 1fr; gap: 18px; align-items: start; }
+.form-grid .full { grid-column: 1 / -1; }
+
+/* small two-cols helper (inline) */
+.form-row.two-cols { display: flex; gap: 8px; }
+
+/* purchase link */
+.form-row input[type="url"], .form-row input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* preview の見た目 */
+.preview { margin-top: 8px; }
+.preview img { border-radius: 6px; max-width: 220px; height: auto; }
+
+/* purchase link 表示 */
+.purchase-link { margin-top: 8px; font-size: 14px; }
+.purchase-link a { color: #2563eb; text-decoration: none; }
+
+/* 小さい画面では1列化 */
+@media (max-width: 880px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .rating-block { flex-direction: row; gap: 12px; justify-content: flex-start; }
+}

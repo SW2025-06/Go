@@ -9,54 +9,103 @@
         </ul>
       </div>
     <% end %>
+    
+    
+    <style>
+/* container for main content */
+.site-main { max-width: 1200px; margin: 24px auto; padding: 0 16px; }
 
+/* base card used on many pages */
+.auth-page { display:flex; align-items:center; justify-content:center; padding:48px 16px; min-height:calc(100vh - 120px); background: #f7f9fb; }
+.auth-card { width:100%; max-width:880px; background:#fff; border-radius:12px; box-shadow:0 8px 30px rgba(16,24,40,0.06); overflow:hidden; }
+.auth-card__header { padding:20px 28px; }
+.auth-card__body { padding:18px 28px; }
+
+/* form-card */
+.form-card { background:#fff; border-radius:10px; padding:18px; box-shadow:0 6px 22px rgba(16,24,40,0.06); margin-bottom:18px; max-width:720px; margin-left:auto; margin-right:auto; }
+
+/* star */
+.star-rating { display:flex; gap:8px; align-items:center; margin:6px 0; }
+.star-img { width:120px !important; height:auto !important; display:block !important; object-fit:contain !important; }
+
+/* simple form controls */
+.form-label { display:block; margin-bottom:6px; font-weight:700; }
+.form-control { width:100%; padding:10px; border-radius:8px; border:1px solid #e6edf3; box-sizing:border-box; }
+.form-actions { display:flex; gap:12px; justify-content:flex-end; margin-top:12px; }
+.btn.primary { background:#2563eb; color:#fff; border-radius:8px; padding:10px 16px; border:0; cursor:pointer; }
+
+/* responsive */
+@media (max-width:880px) {
+  .form-grid { grid-template-columns: 1fr !important; }
+  .star-img { width:28px !important; }
+}
+    </style>
+    
+    
     <div class="card form-card">
-      <div class="form-row rating-row">
-        <label class="form-label">評価</label>
-        <div class="star-rating" role="radiogroup" aria-label="評価">
-          <% 5.downto(1) do |i| %>
-            <% id = "star_#{i}" %>
-            <input type="radio" name="review[rating]" id="<%= id %>" value="<%= i %>" <%= "checked" if review.rating.to_i == i %> />
-            <label for="<%= id %>" class="star-label" data-value="<%= i %>">
-              <%= image_tag "stars/star#{i}.png", alt: "#{i} 星", class: "star-img" %>
-            </label>
-          <% end %>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <%= f.label :title, "Title", class: "form-label" %>
-        <%= f.text_field :title, class: "form-control" %>
-      </div>
-
-      <div class="form-row">
-        <%= f.label :genre, "Genre", class: "form-label" %>
-        <%= f.select :genre, options_for_select(["アクション","RPG","シミュレーション","シューティング","音楽ゲーム","レースゲーム","ホラーゲーム","ストラテジゲーム","パズル","格闘ゲーム"], review.genre), { include_blank: "選択してください" }, class: "form-control" %>
-      </div>
-
-      <div class="form-row">
-        <%= f.label :platform, "Platform", class: "form-label" %>
-        <%= f.select :platform, options_for_select(["PC","スマホ","switch","PS4/PS5","Xbox"], review.platform), { include_blank: "選択してください" }, class: "form-control" %>
-      </div>
-
-      <div class="form-row">
-        <%= f.label :jacket, "ジャケット画像", class: "form-label" %>
-        <%= f.file_field :jacket, accept: "image/png,image/jpeg,image/webp", class: "form-control-file" %>
-        <% if review.jacket.attached? %>
-          <div class="preview">
-            <%= image_tag review.jacket.variant(resize_to_limit: [200,200]) %>
+      <div class="form-grid">
+        <!-- 左：評価ブロック -->
+        <div class="rating-block">
+          <label class="form-label">評価</label>
+          <div class="star-rating" role="radiogroup" aria-label="評価">
+            <% (1..5).each do |i| %>
+              <label class="star-label" data-value="<%= i %>">
+                <input type="radio" name="review[rating]" value="<%= i %>" <%= "checked" if review.rating.to_i == i %> />
+                <%= image_tag "stars/star#{i}.png", alt: "#{i} 星", class: "star-img", style: "width:400px;max-width:400px;height:auto;" %>
+              </label>
+            <% end %>
           </div>
-        <% end %>
-      </div>
+          <p class="muted small">クリックして評価を選んでください</p>
+        </div>
 
-      <div class="form-row">
-        <%= f.label :body, "感想／説明", class: "form-label" %>
-        <%= f.text_area :body, rows: 6, class: "form-control" %>
+        <!-- 右：基本入力 -->
+        <div>
+          <div class="form-row">
+            <%= f.label :title, "タイトル", class: "form-label" %>
+            <%= f.text_field :title, class: "form-control", placeholder: "レビューのタイトルを入力" %>
+          </div>
+
+          <div class="form-row two-cols">
+            <div style="flex:1; margin-right:8px;">
+              <%= f.label :genre, "ジャンル", class: "form-label" %>
+              <%= f.select :genre, options_for_select(["アクション","RPG","シミュレーション","シューティング","音楽ゲーム","レースゲーム","ホラーゲーム","ストラテジ","パズル","格闘ゲーム"], review.genre), { include_blank: "選択してください" }, class: "form-control" %>
+            </div>
+            <div style="flex:1; margin-left:8px;">
+              <%= f.label :platform, "プラットフォーム", class: "form-label" %>
+              <%= f.select :platform, options_for_select(["PC","スマホ","Switch","PS4/PS5","Xbox"], review.platform), { include_blank: "選択してください" }, class: "form-control" %>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <%= f.label :jacket, "ジャケット画像", class: "form-label" %>
+            <%= f.file_field :jacket, accept: "image/png,image/jpeg,image/webp", class: "form-control-file" %>
+            <% if review.jacket.attached? %>
+              <div class="preview">
+                <%= image_tag review.jacket.variant(resize_to_limit: [220,220]) %>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- ここに購入先URLを追加 -->
+          <div class="form-row">
+            <%= f.label :purchase_url, "購入先リンク（任意）", class: "form-label" %>
+            <%= f.url_field :purchase_url, class: "form-control", placeholder: "例: https://store.example.com/product/123" %>
+            <p class="muted small">ショップの URL を入力してください（コピー＆ペースト可）</p>
+          </div>
+        </div>
+
+        <!-- 感想はフル幅 -->
+        <div class="full">
+          <div class="form-row">
+            <%= f.label :body, "感想／説明", class: "form-label" %>
+            <%= f.text_area :body, rows: 6, class: "form-control", placeholder: "このゲームの良かった点・気になった点など" %>
+          </div>
+        </div>
       </div>
 
       <div class="form-actions">
         <%= f.submit review.persisted? ? "更新" : "投稿", class: "btn primary large" %>
-        <%= link_to "Cancel", reviews_path, class: "btn link" %>
+        <%= link_to "キャンセル", reviews_path, class: "btn link" %>
       </div>
     </div>
   <% end %>

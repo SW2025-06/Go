@@ -60,3 +60,43 @@ document.addEventListener("turbo:load", function() {
     inputs.forEach(inp => inp.addEventListener('change', refresh));
   });
 });
+
+document.addEventListener("turbo:load", function() {
+  // 初期化／イベント登録
+  document.querySelectorAll(".star-rating").forEach(function(group) {
+    const labels = Array.from(group.querySelectorAll(".star-label"));
+    const inputs = Array.from(group.querySelectorAll("input[type='radio']"));
+
+    function refresh() {
+      const checked = inputs.find(i => i.checked);
+      let value = checked ? parseInt(checked.value, 10) : 0;
+      // clear
+      labels.forEach(lbl => lbl.classList.remove("on"));
+      // add .on to all labels with data-value <= value
+      labels.forEach(lbl => {
+        const v = parseInt(lbl.dataset.value, 10);
+        if (v <= value) lbl.classList.add("on");
+      });
+    }
+
+    // initial
+    refresh();
+
+    // clicking a label will toggle its input; we handle input change
+    inputs.forEach(inp => {
+      inp.addEventListener("change", refresh);
+    });
+
+    // also: clicking label visually gives immediate feedback (optional)
+    labels.forEach(lbl => {
+      lbl.addEventListener("mouseenter", () => {
+        const hoverVal = parseInt(lbl.dataset.value, 10);
+        labels.forEach(l => {
+          if (parseInt(l.dataset.value, 10) <= hoverVal) l.classList.add("on");
+          else l.classList.remove("on");
+        });
+      });
+      lbl.addEventListener("mouseleave", refresh);
+    });
+  });
+});
