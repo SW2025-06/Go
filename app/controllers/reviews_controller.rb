@@ -73,6 +73,15 @@ end
       redirect_to reviews_path, alert: "レビューが見つかりません"
     end
   end
+  
+    # 投稿者のみが編集・削除できるようにするメソッド
+  def authorize_owner!
+    # @review は set_review でセット済みのはず
+    unless @review && user_signed_in? && @review.user == current_user
+      # やさしく弾く／不正アクセスは一覧へ戻す
+      redirect_to(@review || reviews_path, alert: "この操作は投稿者のみ可能です")
+    end
+  end
 
   def review_params
     params.require(:review).permit(:title, :body, :genre, :platform, :jacket, :rating, :purchase_url, :game_id)

@@ -133,9 +133,15 @@ textarea {
             <%= f.label :jacket, "ジャケット画像(.png)", class: "form-label" %>
             <%= f.file_field :jacket, accept: "image/png,image/jpeg,image/webp", class: "form-control-file" %>
             <% if review.jacket.attached? %>
-              <div class="preview">
-                <%= image_tag review.jacket.variant(resize_to_limit: [220,220]) %>
-              </div>
+              <% if review.jacket.blob.persisted? && review.persisted? %>
+                <div class="preview">
+                  <%= image_tag review.jacket.variant(resize_to_limit: [220,220]) %>
+                </div>
+              <% else %>
+                <div class="preview"></div> <%# JS がここにプレビューを差し込む %>
+              <% end %>
+            <% else %>
+              <div class="preview"></div> <%# ファイル未選択時は空のプレースホルダを置く %>
             <% end %>
           </div>
 
@@ -161,5 +167,51 @@ textarea {
         <%= link_to "キャンセル", reviews_path, class: "btn link" %>
       </div>
     </div>
+    
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Rails の file_field は通常 id="review_jacket"
+  const input = document.getElementById("review_jacket");
+  if (!input) return;
+
+  // preview 要素を探す（無ければ作る）
+  let preview = input.closest("form").querySelector(".preview");
+  if (!preview) {
+    preview = document.createElement("div");
+    preview.className = "preview";
+    input.parentNode.appendChild(preview);
+  }
+
+  // 既にサーバ側で表示されている画像があれば消さない（上書き）
+  function clearPreview() {
+    while (preview.firstChild) preview.removeChild(preview.firstChild);
+  }
+
+  input.addEventListener("change", function(e) {
+    clearPreview();
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      const p = document.createElement("p");
+      p.className = "muted small";
+      p.textContent = "画像ファイルを選択してください";
+      preview.appendChild(p);
+      return;
+    }
+
+    const img = document.createElement("img");
+    img.style.maxWidth = "220px";
+    img.style.height = "auto";
+    img.style.display = "block";
+    img.alt = "選択画像のプレビュー";
+    preview.appendChild(img);
+
+    const reader = new FileReader();
+    reader.onload = function(ev) { img.src = ev.target.result; };
+    reader.readAsDataURL(file);
+  });
+});
+</script>
   <% end %>
 <% end %>
