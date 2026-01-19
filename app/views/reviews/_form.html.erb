@@ -76,10 +76,7 @@ textarea {
   align-items: center;
   cursor: pointer;}
 
-.star-label img {
-  width: 56px;     /* ← 48 / 56 / 64 で好み調整 */
-  height: auto;
-}
+.star-img { width:200px !important; height:auto !important; display:block !important; object-fit:contain !important; }
 
 .star-label input {display: none;}
 
@@ -105,7 +102,7 @@ textarea {
             <% (1..5).each do |i| %>
               <label class="star-label" data-value="<%= i %>">
                 <input type="radio" name="review[rating]" value="<%= i %>" <%= "checked" if review.rating.to_i == i %> />
-                <%= image_tag "stars/star#{i}.png", alt: "#{i} 星", class: "star-img", style: "width:56px;height:auto;" %>
+                <%= image_tag "stars/star#{i}.png", alt: "#{i} 星", class: "star-img" %>
               </label>
             <% end %>
           </div>
