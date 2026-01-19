@@ -11,35 +11,89 @@
     <% end %>
     
     
-    <style>
-/* container for main content */
-.site-main { max-width: 1200px; margin: 24px auto; padding: 0 16px; }
 
-/* base card used on many pages */
-.auth-page { display:flex; align-items:center; justify-content:center; padding:48px 16px; min-height:calc(100vh - 120px); background: #f7f9fb; }
-.auth-card { width:100%; max-width:880px; background:#fff; border-radius:12px; box-shadow:0 8px 30px rgba(16,24,40,0.06); overflow:hidden; }
-.auth-card__header { padding:20px 28px; }
-.auth-card__body { padding:18px 28px; }
+<style>
+/* ===== レビューフォーム共通CSS（index / new 両対応） ===== */
 
-/* form-card */
-.form-card { background:#fff; border-radius:10px; padding:18px; box-shadow:0 6px 22px rgba(16,24,40,0.06); margin-bottom:18px; max-width:720px; margin-left:auto; margin-right:auto; }
-
-/* star */
-.star-rating { display:flex; gap:8px; align-items:center; margin:6px 0; }
-.star-img { width:120px !important; height:auto !important; display:block !important; object-fit:contain !important; }
-
-/* simple form controls */
-.form-label { display:block; margin-bottom:6px; font-weight:700; }
-.form-control { width:100%; padding:10px; border-radius:8px; border:1px solid #e6edf3; box-sizing:border-box; }
-.form-actions { display:flex; gap:12px; justify-content:flex-end; margin-top:12px; }
-.btn.primary { background:#2563eb; color:#fff; border-radius:8px; padding:10px 16px; border:0; cursor:pointer; }
-
-/* responsive */
-@media (max-width:880px) {
-  .form-grid { grid-template-columns: 1fr !important; }
-  .star-img { width:28px !important; }
+.card.form-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(16,24,40,0.06);
 }
-    </style>
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.rating-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.form-row {
+  margin-bottom: 12px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.form-control,
+.form-control-file,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e6edf3;
+  box-sizing: border-box;
+}
+
+.form-actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.star-rating {
+  display: flex;
+  flex-direction: column;   /* ← 横 → 縦 */
+  gap: 8px;
+  align-items: flex-start;  /* 左揃え */
+}
+
+.star-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;}
+
+.star-label img {
+  width: 56px;     /* ← 48 / 56 / 64 で好み調整 */
+  height: auto;
+}
+
+.star-label input {display: none;}
+
+.star-label input:checked + img {
+  outline: 2px solid #2563eb;
+  border-radius: 6px;
+  background: rgba(37,99,235,0.1);
+}
+
+/* スマホ */
+@media (max-width: 860px) {
+  .form-grid { grid-template-columns: 1fr; }
+}
+</style>
     
     
     <div class="card form-card">
@@ -51,12 +105,14 @@
             <% (1..5).each do |i| %>
               <label class="star-label" data-value="<%= i %>">
                 <input type="radio" name="review[rating]" value="<%= i %>" <%= "checked" if review.rating.to_i == i %> />
-                <%= image_tag "stars/star#{i}.png", alt: "#{i} 星", class: "star-img", style: "width:400px;max-width:400px;height:auto;" %>
+                <%= image_tag "stars/star#{i}.png", alt: "#{i} 星", class: "star-img", style: "width:56px;height:auto;" %>
               </label>
             <% end %>
           </div>
           <p class="muted small">クリックして評価を選んでください</p>
         </div>
+        
+        <rb>
 
         <!-- 右：基本入力 -->
         <div>

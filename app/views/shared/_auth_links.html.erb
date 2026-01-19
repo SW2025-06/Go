@@ -6,7 +6,8 @@
 <%# app/views/shared/_auth_links.html.erb %>
 <% if user_signed_in? %>
   <span class="welcome">ようこそ、<%= current_user.username.presence || current_user.email %>さん</span>
-  <%= link_to "New review", new_review_path, class: "btn small" %>
+  <%# link_to "New review", new_review_path, class: "btn small" %>
+  <%= link_to "New Review", new_review_path, data: { turbo_frame: "_top" }, class: "btn" %>
   <%# logout を確実に DELETE にするため turbo が効かない環境では button_to に差し替えても良いです %>
  <%= button_to "Logout", destroy_user_session_path,
       method: :delete,

@@ -1,0 +1,125 @@
+<%# app/views/reviews/_review_detail.html.erb %>
+
+<style>
+  .review-show-wrap{
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .review-show-card{
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 10px 30px rgba(16,24,40,0.06);
+  }
+
+  .review-show-grid{
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+
+  .review-show-thumb{
+    width: 380px;
+    height: 380px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f1f5f9;
+    border: 1px solid #e6edf3;
+  }
+
+  .review-show-thumb img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .review-show-title{
+    margin: 0 0 10px 0;
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+  }
+
+  .review-show-meta{
+    margin: 0 0 10px 0;
+    color: #6b7280;
+    font-size: 14px;
+  }
+
+  .review-show-body{
+    margin-top: 12px;
+    color: #111827;
+    line-height: 1.7;
+  }
+
+  .review-show-actions{
+    margin-top: 16px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn{
+    display: inline-block;
+    text-decoration: none;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-weight: 700;
+    border: 1px solid transparent;
+  }
+  .btn.primary{ background:#2563eb; color:#fff; }
+  .btn.ghost{ background:#fff; color:#2563eb; border-color:#2563eb; }
+  .btn.danger{ background:#ef4444; color:#fff; }
+
+  @media (max-width: 860px){
+    .review-show-grid{ grid-template-columns: 1fr; }
+    .review-show-thumb{ width: 100%; height: 260px; }
+  }
+</style>
+
+<div class="review-show-wrap">
+  <div class="review-show-card">
+    <div class="review-show-grid">
+      <div class="review-show-thumb">
+        <% if review.jacket.attached? %>
+          <%= image_tag url_for(review.jacket), alt: review.title %>
+        <% else %>
+          <div style="width:100%;height:100%;display:grid;place-items:center;color:#64748b;font-weight:700;">
+            No Image
+          </div>
+        <% end %>
+      </div>
+
+      <div>
+        <div class="stars" style="margin-bottom:10px;">
+          <%= render partial: "shared/stars", locals: { rating: review.try(:rating) } %>
+        </div>
+
+        <h1 class="review-show-title"><%= review.title %></h1>
+        <p class="review-show-meta"><%= review.genre %> / <%= review.platform %></p>
+
+        <% if review.purchase_url.present? %>
+          <p class="review-show-meta">
+            購入先：
+            <%= link_to review.purchase_url, review.purchase_url, target: "_blank", rel: "noopener" %>
+          </p>
+        <% end %>
+
+        <div class="review-show-body">
+          <%= simple_format(review.body) %>
+        </div>
+
+        <div class="review-show-actions">
+          <%= link_to "Back", reviews_path, class: "btn ghost" %>
+          <%# 編集/削除は必要なら表示制御（投稿者のみ）を後で入れる %>
+          <%= link_to "Edit", edit_review_path(review), class: "btn primary" %>
+          <%= button_to "Delete", review_path(review), method: :delete, class: "btn danger", form: { style: "display:inline" } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<% content_for :title, "レビュー投稿" %>
+
+<style>
+  /* new ページ用（あなたの方針：HTML内CSS） */
+  .page-wrap {
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  .page-title {
+    margin: 6px 0 14px 0;
+    font-size: 22px;
+    font-weight: 800;
+    color: #0f172a;
+  }
+</style>
+
+<div class="page-wrap">
+  <h2 class="page-title">レビューを投稿</h2>
+
+  <%= render "form", review: @review %>
+</div>

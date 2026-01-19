@@ -2,10 +2,7 @@
 
 <% if @review.present? %>
   <%= render partial: "reviews/review_detail", locals: { review: @review } %>
-  <div>
-    <%= link_to "Edit this review", edit_review_path(@review) %> |
-    <%= link_to "Back", reviews_path %>
-  </div>
 <% else %>
-  <p class="muted">レビューが見つかりません。</p>
+  <p>レビューが見つかりません。</p>
+  <%= link_to "Back", reviews_path %>
 <% end %>
