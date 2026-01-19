@@ -1,0 +1,271 @@
+<p style="color: green"><%= notice %></p>
+<% content_for :title, "5GAME" %>
+
+<style>
+  .large-review { display: grid; grid-template-columns: 380px 1fr; gap: 18px; align-items: start; }
+.large-thumb {
+  width: 380px !important;
+  height: 380px !important;
+  overflow: hidden !important;
+  border-radius: 12px !important;
+  background: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+  box-sizing: border-box !important;
+}
+.large-thumb img,
+.large-thumb > img {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+/* グリッド側のカード */
+.review-card .thumb { width: 100% !important; padding-top: 65% !important; position: relative !important; overflow: hidden !important; }
+.review-card .thumb img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* 保険：大きすぎる画像が body を押し出しているとき */
+img { max-width: 100% !important; height: auto !important; }
+
+/* スマホ向けで縦積みにする */
+@media (max-width: 860px) {
+  .large-review { grid-template-columns: 1fr !important; }
+  .large-thumb { width: 100% !important; height: 260px !important; }
+}
+.site-main { padding-top: 16px; }
+  /* large-review（最上段の大きいカード） */
+  .large-review { display: grid; grid-template-columns: 380px 1fr; gap: 18px; align-items: start; }
+  .large-thumb {
+    width: 380px;
+    height: 380px;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+  }
+  .large-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* grid（2件目以降のカード） */
+  .grid-reviews {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+    margin-top: 18px;
+  }
+
+  .review-card { background:#fff; border-radius:12px; overflow:hidden; border:1px solid #eef2f7; }
+  .review-card .thumb {
+    width: 100%;
+    height: 0;
+    padding-top: 65%; /* 高さ比率（好みで 56%〜75% くらい） */
+    position: relative;
+    overflow: hidden;
+    background: #f1f5f9;
+  }
+  .review-card .thumb img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* 画像が無いとき */
+  .thumb-placeholder{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    color: #64748b;
+    font-weight: 700;
+  }
+
+  /* スマホ対応（ヘッダーが隠れやすい環境） */
+  @media (max-width: 860px) {
+    .large-review { grid-template-columns: 1fr; }
+    .large-thumb { width: 100%; height: 260px; }
+  }
+  
+  
+    .dropholder{
+      width: 100%;
+      max-width: 320px;
+      margin: 12px 0;
+      padding: 0 12px;
+      border-radius:10px;
+      font:16px "Noto Sans JP", Arial, sans-serif;
+      color: #111;
+      position: relative;
+      box-sizing:border-box;
+      background: linear-gradient(#fff,#fbfdff);
+      border:1px solid rgba(15,23,42,0.06);
+      box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+    }
+
+    .d-label{
+      float:left;
+      line-height:56px;
+      font-weight:700;
+      margin-right:12px;
+      color:#0b1220;
+    }
+
+    .dropdown{
+      margin-left: auto;
+      float: right;
+      width: 140px;
+      padding:0 14px;
+      border-radius:10px;
+      cursor: pointer;
+      height:44px;
+      border-left:1px solid rgba(255,255,255,0.06);
+      position: relative;
+      background: linear-gradient(#2563eb,#1d4ed8);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 8px 22px rgba(37,99,235,0.18);
+    }
+    .dropdown p { margin:0; display:flex; gap:8px; align-items:center; font-weight:700; }
+    .dropdown:focus { outline:none; box-shadow:0 8px 30px rgba(37,99,235,0.22); }
+
+    .menu{
+      position: absolute;
+      right: 12px;
+      top: calc(100% + 10px);
+      width: 220px;
+      cursor: pointer;
+      opacity:0;
+      transform-origin: top center;
+      transform: translateY(12px) rotateX(10deg);
+      backface-visibility: hidden;
+      background: linear-gradient(#4dc2f8 ,#0d82b9);
+      border:2px solid #0d82b9;
+      border-radius:10px;
+      transition: all 220ms cubic-bezier(.2,.9,.2,1);
+      z-index:50;
+      overflow:hidden;
+      pointer-events: none;
+      box-shadow: 0 18px 40px rgba(13,130,185,0.18);
+    }
+    .menu li{
+      padding: 10px 12px;
+      border-bottom:1px dotted rgba(255,255,255,0.15);
+      color:#e8f8ff;
+      transition: all 160ms;
+      list-style:none;
+      display:block;
+    }
+    .menu li:hover{
+      background: rgba(255,255,255,0.08);
+      padding-left:20px;
+    }
+    .menu li:last-child{ border-bottom:none; }
+    .menu .menu-link { color:inherit; text-decoration:none; display:block; width:100%; }
+
+    .menu.show{
+      opacity:1;
+      transform: translateY(0) rotateX(0deg);
+      pointer-events: auto;
+    }
+
+    @media (max-width:540px){
+      .dropholder{ max-width:100%; padding:10px; }
+      .dropdown{ width:140px; float:none; margin-left:auto; }
+      .menu{ right:12px; left:12px; width:auto; }
+    }
+
+</style>
+
+<main class="layout">
+  <aside class="col left-col">
+    <div class="search-box">
+      <%= form_with url: reviews_path, method: :get, local: true do |f| %>
+        <%= f.text_field :q, value: params[:q], placeholder: "検索", class: "search-input" %>
+        <%= f.submit "検索", class: "search-btn" %>
+      <% end %>
+    </div>
+
+    <div class="links-box">
+      <%= render "shared/dropdown", label: "プラットフォーム", name: "platform", items: ["PC","スマホ","Switch","PS4/PS5","Xbox"] %>
+
+      <%= render "shared/dropdown", label: "ジャンル", name: "genre",
+          items: ["アクション","RPG","シミュレーション","シューティング","音楽ゲーム","レースゲーム","ホラーゲーム","ストラテジ","パズル","格闘ゲーム"] %>
+
+      <div class="side-thumbs">
+        <% (@side_highlights || []).each do |h| %>
+          <div class="side-thumb">
+            <%= link_to review_path(h) do %>
+              <% if h.jacket.attached? %>
+                <%= image_tag url_for(h.jacket), alt: h.title %>
+              <% else %>
+                <div class="thumb-placeholder">No Image</div>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </aside>
+
+  <section class="col center-col">
+    <div class="list-header">
+      <h2>投稿されたレビューを表示</h2>
+
+      <div class="sort-box">
+        <%= form_with url: reviews_path, method: :get, local: true do |f| %>
+          <%= hidden_field_tag :q, params[:q] if params[:q].present? %>
+          <label>ソート</label>
+          <%= select_tag :sort, options_for_select([["新着順","new"],["評価順","rating"]], params[:sort]), include_blank: false, onchange: 'this.form.submit()' %>
+        <% end %>
+      </div>
+    </div>
+
+    <% if @reviews.present? %>
+      <% first_review = @reviews.first %>
+      <article class="large-review">
+        <div class="large-thumb">
+          <%= link_to review_path(first_review) do %>
+            <% if first_review.jacket.attached? %>
+              <%= image_tag url_for(first_review.jacket), alt: first_review.title, class: "review-thumb-img" %>
+            <% else %>
+              <div class="thumb-placeholder">No Image</div>
+            <% end %>
+          <% end %>
+        </div>
+
+        <div class="large-meta">
+          <div class="stars">
+            <%= render partial: "shared/stars", locals: { rating: first_review.try(:rating) } %>
+          </div>
+          <h3 class="title"><%= link_to first_review.title, first_review %></h3>
+          <p class="meta-line"><%= first_review.try(:genre) %>　/　<%= first_review.try(:platform) %></p>
+          <div class="excerpt-box"><%= simple_format(truncate(first_review.body, length: 240)) %></div>
+          <div class="meta-actions">
+            <%= link_to "詳細を見る", review_path(first_review), class: "btn" %>
+          </div>
+        </div>
+      </article>
+    <% end %>
+
+    <div class="grid-reviews">
+      <% @reviews.offset(1).each do |review| %>
+        <%= render partial: "review_grid_card", locals: { review: review } %>
+      <% end %>
+    </div>
+  </section>
+</main>
