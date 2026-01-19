@@ -2,12 +2,35 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_review, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_owner!, only: [:edit, :update, :destroy]
 
-  def index
-    @reviews = Review.order(created_at: :desc)
-    @reviews = @reviews.where(genre: params[:genre]) if params[:genre].present?
-    @reviews = @reviews.where(platform: params[:platform]) if params[:platform].present?
+def index
+  @reviews = Review
+    .includes(:user)   # ← 追加（N+1対策 & username検索に必須）
+    .order(created_at: :desc)
+
+  # ジャンル / プラットフォームの絞り込み（既存）
+  @reviews = @reviews.where(genre: params[:genre]) if params[:genre].present?
+  @reviews = @reviews.where(platform: params[:platform]) if params[:platform].present?
+
+  # 検索（タイトル・本文・購入先URL・投稿者ユーザー名）
+  if params[:q].present?
+    q = params[:q].to_s.strip.downcase
+    q_escaped = "%#{ActiveRecord::Base.sanitize_sql_like(q)}%"
+
+    @reviews = @reviews
+      .joins(:user)
+      .where(
+        <<~SQL,
+          lower(reviews.title)        LIKE :q
+          OR lower(reviews.body)      LIKE :q
+          OR lower(reviews.purchase_url) LIKE :q
+          OR lower(users.username)    LIKE :q
+        SQL
+        q: q_escaped
+      )
   end
+end
 
   def show
   end

@@ -25,7 +25,7 @@ class User < ApplicationRecord
 
   private
 
-def normalize_email
+  def normalize_email
     self.email = nil if email.blank?
   end
 

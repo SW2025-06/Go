@@ -130,7 +130,7 @@ textarea {
           </div>
 
           <div class="form-row">
-            <%= f.label :jacket, "ジャケット画像", class: "form-label" %>
+            <%= f.label :jacket, "ジャケット画像(.png)", class: "form-label" %>
             <%= f.file_field :jacket, accept: "image/png,image/jpeg,image/webp", class: "form-control-file" %>
             <% if review.jacket.attached? %>
               <div class="preview">

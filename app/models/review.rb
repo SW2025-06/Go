@@ -1,5 +1,5 @@
 class Review < ApplicationRecord
-  belongs_to :user, optional: true  # 必要に応じて
+  belongs_to :user
   belongs_to :game, optional: true   # 追加（game があるなら）
   has_one_attached :jacket
 

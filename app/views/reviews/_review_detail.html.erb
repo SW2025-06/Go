@@ -100,6 +100,9 @@
         </div>
 
         <h1 class="review-show-title"><%= review.title %></h1>
+        <p class="review-show-meta">
+          投稿者：<%= review.user&.username.presence || "unknown" %>
+        </p>
         <p class="review-show-meta"><%= review.genre %> / <%= review.platform %></p>
 
         <% if review.purchase_url.present? %>
@@ -115,9 +118,11 @@
 
         <div class="review-show-actions">
           <%= link_to "Back", reviews_path, class: "btn ghost" %>
-          <%# 編集/削除は必要なら表示制御（投稿者のみ）を後で入れる %>
-          <%= link_to "Edit", edit_review_path(review), class: "btn primary" %>
-          <%= button_to "Delete", review_path(review), method: :delete, class: "btn danger", form: { style: "display:inline" } %>
+        
+          <% if user_signed_in? && review.user == current_user %>
+            <%= link_to "Edit", edit_review_path(review), class: "btn primary" %>
+            <%= button_to "Delete", review_path(review), method: :delete, class: "btn danger", form: { style: "display:inline" } %>
+          <% end %>
         </div>
       </div>
     </div>
