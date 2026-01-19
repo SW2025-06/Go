@@ -79,6 +79,26 @@
     .review-show-grid{ grid-template-columns: 1fr; }
     .review-show-thumb{ width: 100%; height: 260px; }
   }
+  
+  .rating-box{
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid #e6edf3;
+  border-radius: 12px;
+  background: #fff;
+}
+.rating-row{
+  display: grid;
+  grid-template-columns: 1fr 120px 120px;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid #f1f5f9;
+}
+.rating-row:first-child{ border-top: none; }
+.rating-label{ font-weight: 700; color:#0f172a; }
+.rating-avg{ text-align: right; color:#0f172a; font-weight:700; }
+.rating-hint{ color:#6b7280; font-size:12px; margin-top: 8px; }
 </style>
 
 <div class="review-show-wrap">
@@ -127,4 +147,50 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="rating-box">
+  <h3 style="margin:0 0 10px 0;">このレビューを評価</h3>
+
+<% if user_signed_in? %>
+  <%= form_with model: @my_rating,
+                url: review_upsert_rating_path(review),
+                method: :post,
+                local: true do |rf| %>
+
+    <div class="rating-row">
+      <div class="rating-label">参考になった</div>
+      <div><%= rf.select :helpfulness, (0..10).to_a, {}, class: "form-control" %></div>
+      <div class="rating-avg">
+        平均: <%= @avg_helpfulness ? sprintf("%.1f", @avg_helpfulness) : "-" %>
+      </div>
+    </div>
+
+    <div class="rating-row">
+      <div class="rating-label">遊びたいと思った</div>
+      <div><%= rf.select :want_to_play, (0..10).to_a, {}, class: "form-control" %></div>
+      <div class="rating-avg">
+        平均: <%= @avg_want_to_play ? sprintf("%.1f", @avg_want_to_play) : "-" %>
+      </div>
+    </div>
+
+    <div class="rating-row">
+      <div class="rating-label">友達にすすめたいと思った</div>
+      <div><%= rf.select :recommend_to_friend, (0..10).to_a, {}, class: "form-control" %></div>
+      <div class="rating-avg">
+        平均: <%= @avg_recommend_to_friend ? sprintf("%.1f", @avg_recommend_to_friend) : "-" %>
+      </div>
+    </div>
+
+    <div style="margin-top:12px; display:flex; justify-content:flex-end;">
+      <%= rf.submit "評価を保存", class: "btn primary" %>
+    </div>
+  <% end %>
+    <p class="rating-hint">※同じレビューに対しては、後から何度でも更新できます（上書き保存）</p>
+  <% else %>
+    <p class="rating-hint">
+      評価するにはログインが必要です。
+      <%= link_to "ログイン", new_user_session_path %>
+    </p>
+  <% end %>
 </div>

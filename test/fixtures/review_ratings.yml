@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  review: one
+  user: one
+  helpfulness: 1
+  want_to_play: 1
+  recommend_to_friend: 1
+
+two:
+  review: two
+  user: two
+  helpfulness: 1
+  want_to_play: 1
+  recommend_to_friend: 1

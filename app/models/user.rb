@@ -4,6 +4,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :reviews, dependent: :destroy
+  has_many :review_ratings, dependent: :destroy
 
   # username 必須・ユニーク
   validates :username, presence: true, uniqueness: { case_sensitive: false }

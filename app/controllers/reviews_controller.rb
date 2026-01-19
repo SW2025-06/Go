@@ -3,36 +3,56 @@ class ReviewsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_review, only: [:show, :edit, :update, :destroy]
   before_action :authorize_owner!, only: [:edit, :update, :destroy]
-
-def index
-  @reviews = Review
-    .includes(:user)   # ← 追加（N+1対策 & username検索に必須）
-    .order(created_at: :desc)
-
-  # ジャンル / プラットフォームの絞り込み（既存）
-  @reviews = @reviews.where(genre: params[:genre]) if params[:genre].present?
-  @reviews = @reviews.where(platform: params[:platform]) if params[:platform].present?
-
-  # 検索（タイトル・本文・購入先URL・投稿者ユーザー名）
-  if params[:q].present?
-    q = params[:q].to_s.strip.downcase
-    q_escaped = "%#{ActiveRecord::Base.sanitize_sql_like(q)}%"
-
-    @reviews = @reviews
-      .joins(:user)
-      .where(
-        <<~SQL,
-          lower(reviews.title)        LIKE :q
-          OR lower(reviews.body)      LIKE :q
-          OR lower(reviews.purchase_url) LIKE :q
-          OR lower(users.username)    LIKE :q
-        SQL
+  
+  def index
+    @reviews = Review
+      .left_joins(:review_ratings)
+      .includes(:user)
+      .group("reviews.id")
+      .select(
+        "reviews.*,
+         AVG(review_ratings.helpfulness) AS avg_helpfulness,
+         AVG(review_ratings.want_to_play) AS avg_want_to_play,
+         AVG(review_ratings.recommend_to_friend) AS avg_recommend_to_friend"
+      )
+  
+    # フィルタ（既存）
+    @reviews = @reviews.where(genre: params[:genre]) if params[:genre].present?
+    @reviews = @reviews.where(platform: params[:platform]) if params[:platform].present?
+  
+    # 検索（既存：タイトル/本文/購入URL/username）
+    if params[:q].present?
+      q = params[:q].to_s.strip.downcase
+      q_escaped = "%#{ActiveRecord::Base.sanitize_sql_like(q)}%"
+      @reviews = @reviews.joins(:user).where(
+        "lower(reviews.title) LIKE :q OR lower(reviews.body) LIKE :q OR lower(reviews.purchase_url) LIKE :q OR lower(users.username) LIKE :q",
         q: q_escaped
       )
+    end
+  
+    # ソート
+    case params[:sort]
+    when "helpfulness"
+      @reviews = @reviews.order(Arel.sql("avg_helpfulness DESC NULLS LAST"))
+    when "want_to_play"
+      @reviews = @reviews.order(Arel.sql("avg_want_to_play DESC NULLS LAST"))
+    when "recommend"
+      @reviews = @reviews.order(Arel.sql("avg_recommend_to_friend DESC NULLS LAST"))
+    else
+      @reviews = @reviews.order(created_at: :desc)
+    end
   end
-end
 
   def show
+  @review = Review.find(params[:id])
+
+  if user_signed_in?
+    @my_rating = current_user.review_ratings.find_or_initialize_by(review: @review)
+  end
+
+  @avg_helpfulness = @review.review_ratings.average(:helpfulness)&.to_f
+  @avg_want_to_play = @review.review_ratings.average(:want_to_play)&.to_f
+  @avg_recommend_to_friend = @review.review_ratings.average(:recommend_to_friend)&.to_f
   end
 
   def new

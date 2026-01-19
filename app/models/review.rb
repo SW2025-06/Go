@@ -3,6 +3,8 @@ class Review < ApplicationRecord
   belongs_to :game, optional: true   # 追加（game があるなら）
   has_one_attached :jacket
 
+  has_many :review_ratings, dependent: :destroy
+
   validates :title, presence: true
   validates :body, presence: true
   validates :genre, presence: true

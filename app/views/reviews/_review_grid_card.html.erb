@@ -40,3 +40,9 @@
     <div class="card-excerpt"><%= simple_format(truncate(review.body.to_s, length: 120)) %></div>
   </div>
 </article>
+
+<div class="muted small">
+  参考: <%= review.respond_to?(:avg_helpfulness) && review.avg_helpfulness ? sprintf("%.1f", review.avg_helpfulness.to_f) : "-" %>
+  / 遊びたい: <%= review.respond_to?(:avg_want_to_play) && review.avg_want_to_play ? sprintf("%.1f", review.avg_want_to_play.to_f) : "-" %>
+  / すすめたい: <%= review.respond_to?(:avg_recommend_to_friend) && review.avg_recommend_to_friend ? sprintf("%.1f", review.avg_recommend_to_friend.to_f) : "-" %>
+</div>
