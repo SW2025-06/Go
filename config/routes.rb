@@ -9,6 +9,15 @@ Rails.application.routes.draw do
   resources :reviews do
   post "rating", to: "review_ratings#upsert", as: :upsert_rating
   end
+  resources :reviews do
+  resources :comments, only: [:create]
+  end
+  
+  resources :comments, only: [] do
+    resources :comments, only: [:create], as: :replies # /comments/:comment_id/replies
+    post "rating", to: "comment_ratings#upsert", as: :upsert_rating
+  end
+
 
 
   root "reviews#index"

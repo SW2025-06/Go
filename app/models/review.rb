@@ -4,6 +4,7 @@ class Review < ApplicationRecord
   has_one_attached :jacket
 
   has_many :review_ratings, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   validates :title, presence: true
   validates :body, presence: true

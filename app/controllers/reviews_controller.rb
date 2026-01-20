@@ -44,15 +44,18 @@ class ReviewsController < ApplicationController
   end
 
   def show
-  @review = Review.find(params[:id])
+    @review = Review.includes(comments: [:user, :comment_ratings, replies: [:user, :comment_ratings]]).find(params[:id])
 
-  if user_signed_in?
-    @my_rating = current_user.review_ratings.find_or_initialize_by(review: @review)
-  end
-
-  @avg_helpfulness = @review.review_ratings.average(:helpfulness)&.to_f
-  @avg_want_to_play = @review.review_ratings.average(:want_to_play)&.to_f
-  @avg_recommend_to_friend = @review.review_ratings.average(:recommend_to_friend)&.to_f
+    if user_signed_in?
+      @my_rating = current_user.review_ratings.find_or_initialize_by(review: @review)
+    end
+  
+    @new_comment = Comment.new
+    @comment_tree = @review.comments.where(parent_id: nil).order(created_at: :desc)
+    @avg_helpfulness = @review.review_ratings.average(:helpfulness)&.to_f
+    @avg_want_to_play = @review.review_ratings.average(:want_to_play)&.to_f
+    @avg_recommend_to_friend = @review.review_ratings.average(:recommend_to_friend)&.to_f
+    
   end
 
   def new

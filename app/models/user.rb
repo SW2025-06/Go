@@ -5,6 +5,8 @@ class User < ApplicationRecord
 
   has_many :reviews, dependent: :destroy
   has_many :review_ratings, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :comment_ratings, dependent: :destroy
 
   # username 必須・ユニーク
   validates :username, presence: true, uniqueness: { case_sensitive: false }

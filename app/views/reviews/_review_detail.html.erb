@@ -193,4 +193,39 @@
       <%= link_to "ログイン", new_user_session_path %>
     </p>
   <% end %>
+  <style>
+  .comments-box{ margin-top:22px; padding:16px; background:#fff; border:1px solid #e6edf3; border-radius:12px; }
+  .comment-form{ display:flex; gap:10px; align-items:flex-start; }
+  .comment-form textarea{ flex:1; min-height:90px; }
+  .comment-item{ padding:12px 0; border-top:1px solid #f1f5f9; }
+  .comment-item:first-child{ border-top:none; }
+  .comment-head{ display:flex; justify-content:space-between; gap:12px; }
+  .comment-user{ font-weight:700; color:#0f172a; }
+  .comment-time{ color:#6b7280; font-size:12px; }
+  .comment-body{ margin:8px 0 10px 0; white-space:pre-wrap; }
+  .comment-actions{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .reply-box{ margin-left:18px; padding-left:12px; border-left:2px solid #eef2f7; }
+  .mini{ font-size:12px; color:#6b7280; }
+  .inline-select{ width:90px; padding:6px; border-radius:8px; border:1px solid #e6edf3; }
+</style>
+
+<div class="comments-box">
+  <h3 style="margin:0 0 10px 0;">コメント</h3>
+
+  <% if user_signed_in? %>
+    <%= form_with model: @new_comment, url: review_comments_path(@review), local: true do |f| %>
+      <div class="comment-form">
+        <%= f.text_area :body, class: "form-control", placeholder: "このレビューへのコメントを書いてください" %>
+        <%= f.submit "投稿", class: "btn primary" %>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="mini">コメントするにはログインが必要です。</p>
+  <% end %>
+
+  <div style="margin-top:14px;">
+    <%= render partial: "comments/comment", collection: @comment_tree, as: :comment %>
+  </div>
+</div>
+
 </div>

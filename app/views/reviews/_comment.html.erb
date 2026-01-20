@@ -1,0 +1,47 @@
+<% avg_stars = comment.comment_ratings.average(:stars)&.to_f %>
+<% avg_help = comment.comment_ratings.average(:helpfulness)&.to_f %>
+
+<div class="comment-item">
+  <div class="comment-head">
+    <div class="comment-user"><%= comment.user&.username.presence || "unknown" %></div>
+    <div class="comment-time"><%= comment.created_at.strftime("%Y-%m-%d %H:%M") %></div>
+  </div>
+
+  <div class="comment-body"><%= h(comment.body) %></div>
+
+  <div class="comment-actions">
+    <span class="mini">平均 ★: <b><%= avg_stars ? sprintf("%.1f", avg_stars) : "-" %></b></span>
+    <span class="mini">平均 参考: <b><%= avg_help ? sprintf("%.1f", avg_help) : "-" %></b></span>
+
+    <% if user_signed_in? %>
+      <% my = current_user.comment_ratings.find_or_initialize_by(comment: comment) %>
+      <%= form_with model: my, url: comment_upsert_rating_path(comment), method: :post, local: true do |f| %>
+        <span class="mini">あなたの評価</span>
+        <%= f.select :stars, (0..5).to_a, {}, class: "inline-select" %>
+        <%= f.select :helpfulness, (0..10).to_a, {}, class: "inline-select" %>
+        <%= f.submit "保存", class: "btn small" %>
+      <% end %>
+    <% else %>
+      <span class="mini">評価するにはログイン</span>
+    <% end %>
+  </div>
+
+  <%# 返信フォーム %>
+  <% if user_signed_in? %>
+    <div style="margin-top:10px;">
+      <%= form_with model: Comment.new, url: comment_replies_path(comment), local: true do |f| %>
+        <div class="comment-form">
+          <%= f.text_area :body, class: "form-control", placeholder: "返信を書く（コメントにコメント）" %>
+          <%= f.submit "返信", class: "btn" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%# 返信の表示（再帰） %>
+  <% if comment.replies.any? %>
+    <div class="reply-box" style="margin-top:12px;">
+      <%= render partial: "comments/comment", collection: comment.replies.order(created_at: :asc), as: :comment %>
+    </div>
+  <% end %>
+</div>
