@@ -4,37 +4,56 @@ class ReviewsController < ApplicationController
   before_action :set_review, only: [:show, :edit, :update, :destroy]
   before_action :authorize_owner!, only: [:edit, :update, :destroy]
   
-# reviews_controller.rb
 def index
-  @reviews = Review.all
+  base = Review.all
 
-  # ここ：平均点を取る（group は reviews.id のみ）
-  @reviews = @reviews
-    .left_joins(:review_ratings)
-    .select(
-      "reviews.*,
-       AVG(review_ratings.helpfulness) AS avg_helpfulness,
-       AVG(review_ratings.want_to_play) AS avg_want_to_play,
-       AVG(review_ratings.recommend_to_friend) AS avg_recommend_to_friend"
-    )
-    .group("reviews.id")
+  # 1) 絞り込み（まずは素の reviews に対して）
+  base = base.where(genre: params[:genre]) if params[:genre].present?
+  base = base.where(platform: params[:platform]) if params[:platform].present?
 
-  # ここ：検索（title/body + username）を安全に
+  # 2) 検索（title/body + username を EXISTS で）
   if params[:q].present?
     q = "%#{ActiveRecord::Base.sanitize_sql_like(params[:q].to_s.downcase)}%"
 
-    @reviews = @reviews.where(
+    base = base.where(
       <<~SQL, q: q
         lower(reviews.title) LIKE :q
         OR lower(reviews.body) LIKE :q
         OR EXISTS (
           SELECT 1 FROM users
           WHERE users.id = reviews.user_id
-          AND lower(users.username) LIKE :q
+          AND lower(coalesce(users.username, '')) LIKE :q
         )
       SQL
     )
   end
+
+  # 3) 平均点（review_ratings を join して select / group）
+  @reviews = base
+    .left_joins(:review_ratings)
+    .select(
+      "reviews.*,
+       COALESCE(AVG(review_ratings.helpfulness), 0) AS avg_helpfulness,
+       COALESCE(AVG(review_ratings.want_to_play), 0) AS avg_want_to_play,
+       COALESCE(AVG(review_ratings.recommend_to_friend), 0) AS avg_recommend_to_friend"
+    )
+    .group("reviews.id")
+    .with_attached_jacket
+
+  # 4) ソート（params[:sort] で分岐）
+  case params[:sort]
+  when "new"
+    @reviews = @reviews.order(created_at: :desc)
+  when "helpfulness"
+    @reviews = @reviews.order(Arel.sql("avg_helpfulness DESC, reviews.created_at DESC"))
+  when "want_to_play"
+    @reviews = @reviews.order(Arel.sql("avg_want_to_play DESC, reviews.created_at DESC"))
+  when "recommend"
+    @reviews = @reviews.order(Arel.sql("avg_recommend_to_friend DESC, reviews.created_at DESC"))
+  else
+    @reviews = @reviews.order(created_at: :desc)
+  end
+end
 
   # 画像等の表示が重いならここで preload
   @reviews = @reviews.with_attached_jacket
