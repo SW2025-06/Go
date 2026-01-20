@@ -4,44 +4,41 @@ class ReviewsController < ApplicationController
   before_action :set_review, only: [:show, :edit, :update, :destroy]
   before_action :authorize_owner!, only: [:edit, :update, :destroy]
   
-  def index
-    @reviews = Review
-      .left_joins(:review_ratings)
-      .includes(:user)
-      .group("reviews.id")
-      .select(
-        "reviews.*,
-         AVG(review_ratings.helpfulness) AS avg_helpfulness,
-         AVG(review_ratings.want_to_play) AS avg_want_to_play,
-         AVG(review_ratings.recommend_to_friend) AS avg_recommend_to_friend"
-      )
-  
-    # フィルタ（既存）
-    @reviews = @reviews.where(genre: params[:genre]) if params[:genre].present?
-    @reviews = @reviews.where(platform: params[:platform]) if params[:platform].present?
-  
-    # 検索（既存：タイトル/本文/購入URL/username）
-    if params[:q].present?
-      q = params[:q].to_s.strip.downcase
-      q_escaped = "%#{ActiveRecord::Base.sanitize_sql_like(q)}%"
-      @reviews = @reviews.joins(:user).where(
-        "lower(reviews.title) LIKE :q OR lower(reviews.body) LIKE :q OR lower(reviews.purchase_url) LIKE :q OR lower(users.username) LIKE :q",
-        q: q_escaped
-      )
-    end
-  
-    # ソート
-    case params[:sort]
-    when "helpfulness"
-      @reviews = @reviews.order(Arel.sql("avg_helpfulness DESC NULLS LAST"))
-    when "want_to_play"
-      @reviews = @reviews.order(Arel.sql("avg_want_to_play DESC NULLS LAST"))
-    when "recommend"
-      @reviews = @reviews.order(Arel.sql("avg_recommend_to_friend DESC NULLS LAST"))
-    else
-      @reviews = @reviews.order(created_at: :desc)
-    end
+# reviews_controller.rb
+def index
+  @reviews = Review.all
+
+  # ここ：平均点を取る（group は reviews.id のみ）
+  @reviews = @reviews
+    .left_joins(:review_ratings)
+    .select(
+      "reviews.*,
+       AVG(review_ratings.helpfulness) AS avg_helpfulness,
+       AVG(review_ratings.want_to_play) AS avg_want_to_play,
+       AVG(review_ratings.recommend_to_friend) AS avg_recommend_to_friend"
+    )
+    .group("reviews.id")
+
+  # ここ：検索（title/body + username）を安全に
+  if params[:q].present?
+    q = "%#{ActiveRecord::Base.sanitize_sql_like(params[:q].to_s.downcase)}%"
+
+    @reviews = @reviews.where(
+      <<~SQL, q: q
+        lower(reviews.title) LIKE :q
+        OR lower(reviews.body) LIKE :q
+        OR EXISTS (
+          SELECT 1 FROM users
+          WHERE users.id = reviews.user_id
+          AND lower(users.username) LIKE :q
+        )
+      SQL
+    )
   end
+
+  # 画像等の表示が重いならここで preload
+  @reviews = @reviews.with_attached_jacket
+end
 
   def show
     @review = Review.includes(comments: [:user, :comment_ratings, replies: [:user, :comment_ratings]]).find(params[:id])
