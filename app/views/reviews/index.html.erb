@@ -147,7 +147,11 @@
         <%= form_with url: reviews_path, method: :get, local: true do |f| %>
           <%= hidden_field_tag :q, params[:q] if params[:q].present? %>
           <label class="muted">ソート</label>
-          <%= select_tag :sort, options_for_select([["新着順","new"],["評価順","rating"]], params[:sort]), include_blank: false, onchange: 'this.form.submit()' %>
+          <%= select_tag :sort, options_for_select([["新着順", "new"],
+      ["参考になった 平均", "helpfulness"],
+      ["遊びたい 平均", "want_to_play"],
+      ["友達にすすめたい 平均", "recommend"]
+      ], params[:sort]), include_blank: false, onchange: 'this.form.submit()' %>
         <% end %>
       </div>
     </div>
