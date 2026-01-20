@@ -53,7 +53,6 @@ def index
   else
     @reviews = @reviews.order(created_at: :desc)
   end
-end
 
   # 画像等の表示が重いならここで preload
   @reviews = @reviews.with_attached_jacket
