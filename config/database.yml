@@ -39,3 +39,12 @@ production:
     <<: *default
     database: storage/production_cable.sqlite3
     migrations_paths: db/cable_migrate
+  primary: &primary_production
+    <<: *default
+    adapter: postgresql
+    encoding: unicode
+    pool: 5
+    database: mysite_q1nm
+    username: mysite_q1nm_user
+    password: <%= ENV['MYSITE_DATABASE_PASSWORD'] %>
+    url: <%= ENV['DATABASE_URL'] %>
